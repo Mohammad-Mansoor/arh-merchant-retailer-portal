@@ -42,7 +42,7 @@ export default function ErrorModal({
           <h1 className="text-[24px]">{title}</h1>
         </div>
         <div className="mt-3 w-full">{children}</div>
-        <div className="flex items-center justify-center flex-col gap-1 py-3 mt-4 w-full rounded-md bg-[#CD0C021A]">
+        <div className="flex items-center p-4 justify-center flex-col gap-1 py-3 mt-4 w-full rounded-md bg-[#CD0C021A]">
           <h3 className="text-[16px]">{error}</h3>
         </div>
         <div className="w-full flex items-center justify-center flex-col">
@@ -54,7 +54,7 @@ export default function ErrorModal({
           </button>
           <button
             onClick={onClose}
-            className="w-full flex items-center justify-center text-white py-2 px-4 rounded-md mt-1 bg-black"
+            className="w-full flex mb-4 items-center justify-center text-white py-2 px-4 rounded-md mt-1 bg-black"
           >
             Go Back
           </button>

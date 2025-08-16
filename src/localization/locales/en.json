@@ -1,62 +1,193 @@
 {
-  "initalValues": {
-    "welcome": "Welcome to our app!",
-    "language": "Language",
-    "change_language": "Change Language"
+  "nav": {
+    "Dashboard": "Dashboard",
+    "Ecommerce": "Ecommerce",
+    "Stock": "Stock",
+    "MyWallet": "My Wallet",
+    "PurchaseStock": "Purchase Stock",
+    "StockTransfer": "Stock Transfer",
+    "RequestReverse": "Request To Reverse Stock",
+    "MerchantManagement": "Merchant Management",
+    "ManageAgent": "Manage Agent",
+    "TicketManagement": "Ticket Management",
+    "Statement": "Statement",
+    "Products": "Products",
+    "ProductList": "Product List",
+    "Recharge": "Recharge/Topup",
+    "UserProfile": "User Profile",
+    "ContactUs": "Contact Us",
+    "Tutorial": "Tutorial"
   },
-  "routesPageValues": {
-    "header": "Manage Routes",
-    "columns": "Columns",
-    "createRoute": "Create Route",
-    "search": "Search",
-    "searchPlaceholder": "Search By City Name",
-    "filterByProvince": "Filter By Province",
-    "totalRecords": "Total Records",
-    "tooltipView": "Details",
-    "tooltipEdit": "Edit Route",
-    "tooltipDelete": "Delete Route",
-    "table_stops": "Stops",
-    "status_filter": "Filter By Status"
+    "agentManagement": {
+    "searchPlaceholder": "Search by name, email, phone...",
+    "dateFilter": "Date Filter",
+    "advanceFilter": "Advance Filter",
+    "clearAll": "Clear All",
+    "createAgent": "Create Agent",
+    "noResults": "No results found for \"{search}\"",
+    "noAgents": "No agents found",
+    "errorLoading": "Error loading data",
+    "retry": "Retry",
+    "columns": {
+      "profile": "Profile",
+      "username": "Username",
+      "email": "Email",
+      "mobileNumber": "Mobile Number",
+      "commissionRate": "Commission Rate",
+      "address": "Address",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "statusOptions": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "suspended": "Suspended"
+    },
+    "accountTypeOptions": {
+      "merchant": "Merchant",
+      "retailer": "Retailer"
+    },
+    "deleteConfirm": "Are you sure you want to delete this agent?",
+    "deleteSuccess": "Agent deleted successfully",
+    "deleteError": "Failed to delete agent"
   },
-  "createOperatorPageValues": {
-    "goback": "go back",
-    "title": "Create New Route",
-    "basic_information": "Basic Information",
-    "en_name": "English Route Name",
-    "en_validationError": "English Route Name is required!",
-    "ps_name": "Pashto Route Name",
-    "ps_validationError": "Pashto Route Name is required!",
-    "fa_name": "Dari Route Name",
-    "fa_validationError": "Dari Route Name is required!",
-    "origin": "origin City",
-    "origin_errorMessage": "Origin City is required!",
-    "destination": "Destination City",
-    "destination_errorMessage": "Destination City is required!",
-    "total_distance": "Total Distance (KM)",
-    "total_distance_numberError": "Total Distance in KM must be a number",
-    "total_distance_requiredError": "Total Distance in KM is required!",
-    "route_status": "Route Status",
-    "route_status_errorMessage": "Route Status is required!",
-    "Route_stops": "Route Stops",
-    "stop_city": "Stop City",
-    "stop_city_errorMessage": "Stop City is required!",
-    "stop_order": "Stop Order",
-    "stop_order_errorMessage": "Stop Order is required!",
-    "stop_type": "Stop Type",
-    "stop_type_errorMessage": "Stop Type is required!",
-    "edit_stop": "Edit Stop",
-    "delete_stop": "Delete Stop",
-    "add_stop": "Add Stop",
-    "en_name_placeholder": "Enter English Route Name",
-    "ps_name_placeholder": "Enter Pashto Route Name",
-    "fa_name_placeholder": "Enter Dari Route Name",
-    "origin_placeholder": "Select Origin",
-    "destination_placeholder": "Select Destination",
-    "total_distance_placeholder": "Enter Total Distance in KM",
-    "status_placeholder": "Select Status",
-    "stop_city_placeholder": "Select Stop City",
-    "stop_order_placeholder": "Enter Stop Order",
-    "stop_type_placeholder": "Select Stop Type",
-    "submit": "Submit"
+  "walletManagement": {
+    "primaryWallet": "Primary Wallet",
+    "commissionWallet": "Commission Wallet",
+    "transfer": "Transfer",
+    "searchPlaceholder": "Search by Wallet IDs, Agent name/email, Product name...",
+    "dateFilter": "Date Filter",
+    "advanceFilter": "Advance Filter",
+    "clearAll": "Clear All",
+    "noResults": "No results found for \"{search}\"",
+    "noTransactions": "No transactions available",
+    "errorLoading": "Error",
+    "loadDataFailed": "Failed to load data",
+    "retry": "Retry",
+    "amountRange": "Amount Range",
+    "columns": {
+      "fromWallet": "From Wallet",
+      "toWallet": "To Wallet",
+      "type": "Type",
+      "amount": "Amount",
+      "openingBalance": "Opening Balance",
+      "closingBalance": "Closing Balance",
+      "isStock": "Is Stock",
+      "product": "Product",
+      "createdAt": "Created At"
+    },
+    "typeOptions": {
+      "in": "Stock In",
+      "out": "Stock Out"
+    }
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No"
+  },
+   "purchaseStock": {
+    "searchPlaceholder": "Search by ID, payment method, status...",
+    "dateFilter": "Date Filter",
+    "advanceFilter": "Advance Filter",
+    "clearAll": "Clear All",
+    "purchaseStock": "Purchase stock",
+    "noResults": "No results found for \"{search}\"",
+    "noRequestsAvailable": "No purchase requests available",
+    "errorLoading": "Error loading data",
+    "errorLoadingRequests": "Failed to load purchase requests",
+    "retry": "Retry",
+    "amountRange": "Amount Range",
+    "viewAttachment": "View Attachment",
+    "noAttachment": "No attachment",
+    "statusOptions": {
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "approved": "Approved",
+      "verify": "Verify",
+      "transfer": "Transfer"
+    },
+    "paymentOptions": {
+      "cash": "Cash",
+      "card": "Card",
+      "bankTransfer": "Bank Transfer"
+    },
+    "columns": {
+      "createdAt": "Created At",
+      "amount": "Amount",
+      "paymentMethod": "Payment Method",
+      "status": "Status",
+      "attachment": "Attachment"
+    }
+  },
+  "reverseStock": {
+  "searchPlaceholder": "Search by retailer, status, amount...",
+  "dateFilter": "Date Filter",
+  "advanceFilter": "Advance Filter",
+  "clearAll": "Clear All",
+  "newRequest": "New Request",
+  "noResults": "No results found for \"{search}\"",
+  "noRequestsAvailable": "No reverse stock requests available",
+  "errorLoading": "Error loading data",
+  "errorLoadingRequests": "Failed to load reverse stock requests",
+  "retry": "Retry",
+  "amountRange": "Amount Range",
+  "viewAttachment": "View Attachment",
+  "noAttachment": "No attachment",
+  "statusOptions": {
+    "processing": "Processing",
+    "rejected": "Rejected",
+    "completed": "Completed"
+  },
+  "columns": {
+    "createdAt": "Created At",
+    "retailer": "Retailer",
+    "amount": "Amount",
+    "status": "Status",
+    "attachment": "Attachment"
+  }
+},
+"tickets": {
+    "searchPlaceholder": "Search tickets...",
+    "dateFilter": "Date Filter",
+    "advanceFilter": "Advanced Filter",
+    "createTicket": "Create Ticket",
+    "filtersApplied": "Filters applied",
+    "clearAllFilters": "Clear all filters",
+    "clearFilters": "Clear filters",
+    "noResults": "No tickets found for \"{search}\"",
+    "noTicketsAvailable": "No tickets available",
+    "errorLoading": "Failed to load tickets",
+    "retry": "Retry",
+    "view": "View",
+    "date": "Date",
+    "columns": {
+      "id": "ID",
+      "type": "Type",
+      "description": "Description",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "statusOptions": {
+      "pending": "Pending",
+      "resolved": "Resolved",
+      "rejected": "Rejected"
+    }
+  },
+  "stockTransfer": {
+    "agent": "Agent",
+    "amount": "Amount",
+    "commissionRate": "Commission Rate",
+    "totalAmount": "Total Amount",
+    "createdAt": "Created At",
+    "transferAmount": "Transfer amount",
+    "errorLoading": "Failed to load stock transfers"
+  },
+  "common2": {
+    "search": "Search...",
+    "filter": "Filter",
+    "noDataFound": "No Data Found!",
+    "retry": "Retry"
   }
 }

@@ -1,9 +1,8 @@
 import apiClient from "./APIClient";
 
 export const getProducts = async () => {
-  const lang = localStorage.getItem("i18nextLng");
   try {
-    const res = await apiClient.get(`product/admin?lang=${lang}`);
+    const res = await apiClient.get(`product/admin`);
     console.log(res);
     return res.data;
   } catch (error) {
@@ -12,10 +11,10 @@ export const getProducts = async () => {
   }
 };
 export const getSingleProducts = async (id) => {
-  const lang = localStorage.getItem("i18nextLng");
+ 
   try {
-    const res = await apiClient.get(`product/admin/${id}?lang=${lang}`);
-    console.log(res);
+    const res = await apiClient.get(`product/admin/${id}`);
+    console.log(res, "this is single product data");
     return res.data;
   } catch (error) {
     console.log(error);
@@ -60,6 +59,45 @@ export const getAllRechargeLogs = async (agentId) => {
     return res.data;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+};
+
+
+
+
+export const getProviders = async () => {
+  try {
+    const lang = localStorage.getItem("i18nextLng");
+    const res = await apiClient.get(`companies?lang=${lang}`);
+    console.log(res, "this is providers data");
+    return res.data?.data;
+  } catch (error) {
+    console.log("Error fetching providers:", error);
+    throw error;
+  }
+};
+
+export const getProductCategories = async () => {
+
+  try {
+    const res = await apiClient.get(`productCategory`);
+    console.log(res, "this is product categories data");
+    return res.data;
+  } catch (error) {
+    console.log("Error fetching product categories:", error);
+    throw error;
+  }
+};
+
+export const getProductTypes = async () => {
+  const lang = localStorage.getItem("i18nextLng");
+  try {
+    const res = await apiClient.get(`productTypes`);
+    console.log(res, "this is product types data");
+    return res.data;
+  } catch (error) {
+    console.log("Error fetching product types:", error);
     throw error;
   }
 };

@@ -1,6 +1,7 @@
 // ActivateProductModal.tsx
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 
 // Custom styled Dialog with blur
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -20,11 +21,57 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function SuccessModal({ open, onClose, payload }) {
+    const [stars] = useState(Array(15).fill(0));
+    const [visible, setVisible] = useState(false);
+  useEffect(() => {
+      let timer;
+      if (open) {
+        setTimeout(() => setVisible(true), 100);
+        
+        timer = setTimeout(() => {
+          onClose();
+        }, 15000); 
+      } else {
+        setVisible(false);
+      }
+      
+      return () => clearTimeout(timer);
+    }, [open, onClose]);
   return (
     <StyledDialog open={open} onClose={onClose}>
       <div className=" w-full p-4 text-center bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
-        <div className="w-full flex items-center justify-center">
-          <img src="/images/check.png" alt="" />
+        <div className="w-full px-6 pt-6 flex items-center justify-center relative z-10">
+
+          <div className="success-animation">
+            <svg 
+              className="checkmark" 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 52 52"
+            >
+              <circle 
+                className="checkmark__circle" 
+                cx="26" 
+                cy="26" 
+                r="25" 
+                fill="none"
+              />
+              <path 
+                className="checkmark__check" 
+                fill="none" 
+                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+              />
+            </svg>
+            
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+            <div className="confetti"></div>
+          </div>
         </div>
 
         <div className="flex items-center justify-center mt-10">

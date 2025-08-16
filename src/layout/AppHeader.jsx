@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "../services/authService";
 import { setUser } from "../store/slicers/authSlicer";
+import LanguageDropdown from "../components/common/LanguageDropDown";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
@@ -56,7 +57,7 @@ const AppHeader = () => {
     }
   }, [data]);
   return (
-    <header className="sticky top-0 flex w-full bg-white border-gray-200 z-10 dark:border-gray-800 dark:bg-gray-900 lg:border-b">
+    <header className="sticky top-0 flex w-full bg-white  border-gray-200 z-10 dark:border-gray-800 dark:bg-gray-900 lg:border-b">
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6">
         <div className="flex items-center justify-between w-full gap-2 px-3 py-3 border-b border-gray-200 dark:border-gray-800 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
           <button
@@ -99,13 +100,13 @@ const AppHeader = () => {
 
           <Link to="/" className="lg:hidden">
             <img
-              className="dark:hidden"
-              src="./images/logo/logo.svg"
+              className="dark:hidden  h-[40px]"
+              src="./images/logo/logo.png"
               alt="Logo"
             />
             <img
-              className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
+              className="hidden  h-[40px] dark:block"
+              src="./images/logo/logo.png"
               alt="Logo"
             />
           </Link>
@@ -172,6 +173,7 @@ const AppHeader = () => {
         >
           <div className="flex items-center gap-2 2xsm:gap-3">
             <ThemeToggleButton />
+            <LanguageDropdown />
             <NotificationDropdown />
           </div>
           <UserDropdown />

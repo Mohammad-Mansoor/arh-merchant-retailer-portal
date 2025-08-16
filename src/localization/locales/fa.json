@@ -1,62 +1,194 @@
 {
-  "initalValues": {
-    "welcome": "به برنامه ما خوش آمدید!",
-    "language": "زبان",
-    "change_language": "تغییر زبان"
+  "nav": {
+    "Dashboard": "داشبورد",
+    "Ecommerce": "تجارت الکترونیک",
+    "Stock": "موجودی",
+    "MyWallet": "کیف پول من",
+    "PurchaseStock": "خرید موجودی",
+    "StockTransfer": "انتقال موجودی",
+    "RequestReverse": "درخواست بازگشت موجودی",
+    "MerchantManagement": "مدیریت فروشندگان",
+    "ManageAgent": "مدیریت نماینده",
+    "TicketManagement": "مدیریت تیکت",
+    "Statement": "صورت حساب",
+    "Products": "محصولات",
+    "ProductList": "لیست محصولات",
+    "Recharge": "شارژ/تاپ آپ",
+    "UserProfile": "پروفایل کاربر",
+    "ContactUs": "تماس با ما",
+    "Tutorial": "آموزش"
   },
-  "routesPageValues": {
-    "header": "مدیریت مسیرها",
-    "columns": "ستون ها",
-    "createRoute": "ایجاد مسیر",
-    "search": "جستجو کردن",
-    "searchPlaceholder": "جستجو با نام شهر",
-    "filterByProvince": "فیلتر بر اساس ولایت",
-    "totalRecords": "مجموع سوابق",
-    "tooltipView": "جزئیات",
-    "tooltipEdit": "ویرایش مسیر",
-    "tooltipDelete": "حذف مسیر",
-    "table_stops": "ایستگاه‌ها",
-    "status_filter": "فیلتر بر اساس وضعیت"
+  "agentManagement": {
+    "searchPlaceholder": "جستجو با نام، ایمیل، تلفن...",
+    "dateFilter": "فیلتر تاریخ",
+    "advanceFilter": "فیلتر پیشرفته",
+    "clearAll": "حذف همه",
+    "createAgent": "ایجاد نماینده",
+    "noResults": "نتیجه‌ای برای \"{search}\" یافت نشد",
+    "noAgents": "هیچ نماینده‌ای یافت نشد",
+    "errorLoading": "خطا در بارگیری اطلاعات",
+    "retry": "تلاش مجدد",
+    "columns": {
+      "profile": "پروفایل",
+      "username": "نام کاربری",
+      "email": "ایمیل",
+      "mobileNumber": "شماره موبایل",
+      "commissionRate": "نرخ کمیسیون",
+      "address": "آدرس",
+      "status": "وضعیت",
+      "createdAt": "تاریخ ایجاد",
+      "actions": "عملیات"
+    },
+    "statusOptions": {
+      "active": "فعال",
+      "inactive": "غیرفعال",
+      "suspended": "معلق"
+    },
+    "accountTypeOptions": {
+      "merchant": "فروشنده",
+      "retailer": "خرده فروش"
+    },
+    "deleteConfirm": "آیا مطمئن هستید که می‌خواهید این نماینده را حذف کنید؟",
+    "deleteSuccess": "نماینده با موفقیت حذف شد",
+    "deleteError": "حذف نماینده ناموفق بود"
   },
-  "createOperatorPageValues": {
-    "goback": "بازگشت",
-    "title": "ایجاد مسیر جدید",
-    "basic_information": "اطلاعات اساسی",
-    "en_name": "نام انگلیسی مسیر",
-    "en_validationError": "نام انگلیسی مسیر الزامی است!",
-    "ps_name": "نام پشتو مسیر",
-    "ps_validationError": "نام پشتو مسیر الزامی است!",
-    "fa_name": "نام دری مسیر",
-    "fa_validationError": "نام دری مسیر الزامی است!",
-    "origin": "شهر مبدأ",
-    "origin_errorMessage": "شهر مبدأ الزامی است!",
-    "destination": "شهر مقصد",
-    "destination_errorMessage": "شهر مقصد الزامی است!",
-    "total_distance": "فاصله کل (کیلومتر)",
-    "total_distance_numberError": "فاصله کل باید یک عدد باشد!",
-    "total_distance_requiredError": "فاصله کل الزامی است!",
-    "route_status": "وضعیت مسیر",
-    "route_status_errorMessage": "وضعیت مسیر الزامی است!",
-    "Route_stops": "ایستگاه‌های مسیر",
-    "stop_city": "شهر ایستگاه",
-    "stop_city_errorMessage": "شهر ایستگاه الزامی است!",
-    "stop_order": "ترتیب ایستگاه",
-    "stop_order_errorMessage": "ترتیب ایستگاه الزامی است!",
-    "stop_type": "نوع ایستگاه",
-    "stop_type_errorMessage": "نوع ایستگاه الزامی است!",
-    "edit_stop": "ویرایش ایستگاه",
-    "delete_stop": "حذف ایستگاه",
-    "add_stop": "افزودن ایستگاه",
-    "en_name_placeholder": "نام انگلیسی مسیر را وارد کنید",
-    "ps_name_placeholder": "نام پشتو مسیر را وارد کنید",
-    "fa_name_placeholder": "نام دری مسیر را وارد کنید",
-    "origin_placeholder": "شهر مبدأ را انتخاب کنید",
-    "destination_placeholder": "شهر مقصد را انتخاب کنید",
-    "total_distance_placeholder": "فاصله کل را به کیلومتر وارد کنید",
-    "status_placeholder": "وضعیت را انتخاب کنید",
-    "stop_city_placeholder": "شهر ایستگاه را انتخاب کنید",
-    "stop_order_placeholder": "ترتیب ایستگاه را وارد کنید",
-    "stop_type_placeholder": "نوع ایستگاه را انتخاب کنید",
-    "submit": "ثبت"
+  "walletManagement": {
+    "primaryWallet": "کیف پول اصلی",
+    "commissionWallet": "کیف پول کمیسیون",
+    "transfer": "انتقال",
+    "searchPlaceholder": "جستجو با شناسه کیف پول، نام/ایمیل نماینده، نام محصول...",
+    "dateFilter": "فیلتر تاریخ",
+    "advanceFilter": "فیلتر پیشرفته",
+    "clearAll": "حذف همه",
+    "noResults": "نتیجه‌ای برای \"{search}\" یافت نشد",
+    "noTransactions": "هیچ تراکنشی موجود نیست",
+    "errorLoading": "خطا",
+    "loadDataFailed": "بارگیری اطلاعات ناموفق بود",
+    "retry": "تلاش مجدد",
+    "amountRange": "محدوده مبلغ",
+    "columns": {
+      "fromWallet": "از کیف پول",
+      "toWallet": "به کیف پول",
+      "type": "نوع",
+      "amount": "مبلغ",
+      "openingBalance": "موجودی اولیه",
+      "closingBalance": "موجودی نهایی",
+      "isStock": "آیا سهام است",
+      "product": "محصول",
+      "createdAt": "تاریخ ایجاد"
+    },
+    "typeOptions": {
+      "in": "ورود سهام",
+      "out": "خروج سهام"
+    }
+  },
+  "common": {
+    "yes": "بله",
+    "no": "خیر"
+  },
+  "purchaseStock": {
+    "searchPlaceholder": "جستجو با شناسه، روش پرداخت، وضعیت...",
+    "dateFilter": "فیلتر تاریخ",
+    "advanceFilter": "فیلتر پیشرفته",
+    "clearAll": "حذف همه",
+    "purchaseStock": "خرید سهام",
+    "noResults": "نتیجه‌ای برای \"{search}\" یافت نشد",
+    "noRequestsAvailable": "هیچ درخواست خریدی موجود نیست",
+    "errorLoading": "خطا در بارگیری اطلاعات",
+    "errorLoadingRequests": "بارگیری درخواست‌های خرید ناموفق بود",
+    "retry": "تلاش مجدد",
+    "amountRange": "محدوده مبلغ",
+    "viewAttachment": "مشاهده پیوست",
+    "noAttachment": "پیوستی وجود ندارد",
+    "statusOptions": {
+      "pending": "در انتظار",
+      "rejected": "رد شده",
+      "approved": "تایید شده",
+      "verify": "تایید",
+      "transfer": "انتقال"
+    },
+    "paymentOptions": {
+      "cash": "نقدی",
+      "card": "کارت",
+      "bankTransfer": "حواله بانکی"
+    },
+    "columns": {
+      "createdAt": "تاریخ ایجاد",
+      "amount": "مبلغ",
+      "paymentMethod": "روش پرداخت",
+      "status": "وضعیت",
+      "attachment": "پیوست"
+    }
+  },
+  "reverseStock": {
+  "searchPlaceholder": "جستجو با خرده فروش، وضعیت، مقدار...",
+  "dateFilter": "فیلتر تاریخ",
+  "advanceFilter": "فیلتر پیشرفته",
+  "clearAll": "حذف همه",
+  "newRequest": "درخواست جدید",
+  "noResults": "نتیجه‌ای برای \"{search}\" یافت نشد",
+  "noRequestsAvailable": "هیچ درخواست بازگشت موجودی موجود نیست",
+  "errorLoading": "خطا در بارگیری اطلاعات",
+  "errorLoadingRequests": "بارگیری درخواست‌های بازگشت موجودی ناموفق بود",
+  "retry": "تلاش مجدد",
+  "amountRange": "محدوده مبلغ",
+  "viewAttachment": "مشاهده پیوست",
+  "noAttachment": "پیوستی وجود ندارد",
+  "statusOptions": {
+    "processing": "در حال پردازش",
+    "rejected": "رد شده",
+    "completed": "تکمیل شده"
+  },
+  "columns": {
+    "createdAt": "تاریخ ایجاد",
+    "retailer": "خرده فروش",
+    "amount": "مبلغ",
+    "status": "وضعیت",
+    "attachment": "پیوست"
   }
+},
+ "tickets": {
+    "searchPlaceholder": "جستجوی تیکت‌ها...",
+    "dateFilter": "فیلتر تاریخ",
+    "advanceFilter": "فیلتر پیشرفته",
+    "createTicket": "ایجاد تیکت",
+    "filtersApplied": "فیلترهای اعمال شده",
+    "clearAllFilters": "حذف همه فیلترها",
+    "clearFilters": "حذف فیلترها",
+    "noResults": "نتیجه‌ای برای \"{search}\" یافت نشد",
+    "noTicketsAvailable": "هیچ تیکتی موجود نیست",
+    "errorLoading": "بارگیری تیکت‌ها ناموفق بود",
+    "retry": "تلاش مجدد",
+    "view": "مشاهده",
+    "date": "تاریخ",
+    "columns": {
+      "id": "شناسه",
+      "type": "نوع",
+      "description": "توضیحات",
+      "status": "وضعیت",
+      "createdAt": "تاریخ ایجاد",
+      "actions": "عملیات"
+    },
+    "statusOptions": {
+      "pending": "در انتظار",
+      "resolved": "حل شده",
+      "rejected": "رد شده"
+    }
+  },
+  "stockTransfer": {
+    "agent": "نماینده",
+    "amount": "مقدار",
+    "commissionRate": "نرخ کمیسیون",
+    "totalAmount": "مقدار کل",
+    "createdAt": "تاریخ ایجاد",
+    "transferAmount": "انتقال مقدار",
+    "errorLoading": "بارگیری انتقال سهام ناموفق بود"
+  },
+  "common2": {
+    "search": "جستجو...",
+    "filter": "فیلتر",
+    "noDataFound": "دیتا پیدا نشد!",
+    "retry": "تلاش مجدد"
+  }
+
 }

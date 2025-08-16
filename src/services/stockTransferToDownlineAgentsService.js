@@ -65,7 +65,7 @@ export const getChildAgents = async (filter) => {
     const res = await apiClient.get(
       `merchant-downlineAgent/childAgents?${queryString}`
     );
-    console.log(res);
+    console.log(res, "this is child agents");
     return res.data;
   } catch (error) {
     console.log(error);

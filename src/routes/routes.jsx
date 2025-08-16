@@ -15,14 +15,13 @@ import {
 import {
   Wallet,
   UserCog,
-  Undo2Icon,
   FileBarChart2,
-  Package,
   GraduationCap,
   Headphones,
+  Ticket,
 } from "lucide-react";
-
 export const navItems = [
+ 
   {
     icon: <GridIcon />,
     name: "Dashboard",
@@ -30,91 +29,115 @@ export const navItems = [
   },
   {
     icon: <Wallet />,
-    name: "Wallet",
+    name: "Stock",
     subItems: [
-      { name: "Manage Wallet", path: "/manage-wallet", pro: false },
+      { name: "MyWallet", path: "/manage-wallet", pro: false },
+      // {
+      //   name: "Transfer From Commission to Primary",
+      //   path: "/comission-to-primary",
+      //   pro: false,
+      // },
       {
-        name: "Transfer From Commission to Primary",
-        path: "/comission-to-primary",
+        name: "PurchaseStock",
+        path: "/purchase-stock",
         pro: false,
       },
-      {
-        name: "Stock Transfer to Downline Agents",
+      //  {
+      //   name: "Orders",
+      //   path: "/orders",
+      //   pro: false,
+      // },
+        {
+        name: "StockTransfer",
         path: "/stock-transfer-downline",
+        pro: false,
+      },
+          {
+        name: "RequestReverse",
+        path: "/request-reverse",
         pro: false,
       },
     ],
   },
   {
     icon: <UserCog />,
-    name: "Agent Management",
+    name: "MerchantManagement",
     subItems: [
       {
-        name: "Manage Agent",
+        name: "ManageAgent",
         path: "/manage-agent",
         pro: false,
       },
     ],
   },
+   {
+    icon: <Ticket />,
+    name: "TicketManagement",
+    path: "/ticket-management",
+  },
+    {
+    icon: <FileBarChart2 />,
+    name: "Statement",
+    path: "/statment",
+  },
   {
     icon: <Wallet />,
-    name: "Product Page",
+    name: "Products",
     subItems: [
-      { name: "Product List", path: "/product-list", pro: false },
+      { name: "ProductList", path: "/product-list", pro: false },
       {
-        name: "Recharge/Topup",
+        name: "Recharge",
         path: "/recharge",
         pro: false,
       },
     ],
   },
-
-  {
-    icon: <Undo2Icon />,
-    name: "Rollback Operation",
-    path: "/rollback-operation",
-  },
-  {
-    icon: <FileBarChart2 />,
-    name: "Reports",
-    subItems: [
-      {
-        name: "Product Activation Report",
-        path: "/transaction-report",
-        pro: false,
-      },
-      {
-        name: "Stock out & in Report",
-        path: "/stock-out-in-report",
-        pro: false,
-      },
-      {
-        name: "Downline Stock In & Out Report",
-        path: "/downline-report",
-        pro: false,
-      },
-      {
-        name: "Downline Product Activation Report",
-        path: "/downline-product-activation",
-        pro: false,
-      },
-      {
-        name: "Downline Recharge Report",
-        path: "/downline-recharge-report",
-        pro: false,
-      },
-      {
-        name: "Rollback Report",
-        path: "/rollback-report",
-        pro: false,
-      },
-      {
-        name: "Topup Recharge Report",
-        path: "/topup-report",
-        pro: false,
-      },
-    ],
-  },
+  // {
+  //   icon: <Undo2Icon />,
+  //   name: "Rollback Operation",
+  //   path: "/rollback-operation",
+  // },
+  // {
+  //   icon: <FileBarChart2 />,
+  //   name: "Reports",
+  //   subItems: [
+  //     {
+  //       name: "Product Activation Report",
+  //       path: "/transaction-report",
+  //       pro: false,
+  //     },
+  //     {
+  //       name: "Stock out & in Report",
+  //       path: "/stock-out-in-report",
+  //       pro: false,
+  //     },
+  //     {
+  //       name: "Downline Stock In & Out Report",
+  //       path: "/downline-report",
+  //       pro: false,
+  //     },
+  //     {
+  //       name: "Downline Product Activation Report",
+  //       path: "/downline-product-activation",
+  //       pro: false,
+  //     },
+  //     {
+  //       name: "Downline Recharge Report",
+  //       path: "/downline-recharge-report",
+  //       pro: false,
+  //     },
+  //     {
+  //       name: "Rollback Report",
+  //       path: "/rollback-report",
+  //       pro: false,
+  //     },
+  //     {
+  //       name: "Topup Recharge Report",
+  //       path: "/topup-report",
+  //       pro: false,
+  //     },
+  //   ],
+  // },
 
   // {
   //   icon: <CalenderIcon />,
@@ -145,17 +168,17 @@ export const navItems = [
 export const othersItems = [
   {
     icon: <UserCircleIcon />,
-    name: "User Profile",
+    name: "UserProfile",
     path: "/profile",
   },
   {
     icon: <Headphones />,
-    name: "Contact Us",
+    name: "ContactUs",
     path: "/contact-us",
   },
   {
     icon: <GraduationCap />,
-    name: "Toturial",
+    name: "Tutorial",
     path: "/toturial",
   },
   // {

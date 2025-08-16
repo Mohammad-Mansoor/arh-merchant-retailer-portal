@@ -1,62 +1,194 @@
 {
-  "initailValues": {
-    "welcome": "زموږ ایپ ته ښه راغلاست!",
-    "language": "ژبه",
-    "change_language": "ژبه بدل کړئ"
+  "nav": {
+    "Dashboard": "ډشبورد",
+    "Ecommerce": "برېښنایی سوداګري",
+    "Stock": "ذخیره",
+    "MyWallet": "زما پېسې",
+    "PurchaseStock": "ذخیره پیرود",
+    "StockTransfer": "د ذخیرې لیږد",
+    "RequestReverse": "د ذخیرې د راګرځولو غوښتنه",
+    "MerchantManagement": "د سوداګر مدیریت",
+    "ManageAgent": "د استازي مدیریت",
+    "TicketManagement": "د ټکټ مدیریت",
+    "Statement": "بیانیه",
+    "Products": "محصولات",
+    "ProductList": "د محصولاتو لیست",
+    "Recharge": "بیا بریښول/تاپ آپ",
+    "UserProfile": "د کارن پروفایل",
+    "ContactUs": "موږ سره اړیکه",
+    "Tutorial": "لارښود"
   },
-  "routesPageValues": {
-    "header": "د لارو اداره کول",
-    "columns": "کالمونه",
-    "createRoute": "لاره جوړه کړئ",
-    "search": "لټون",
-    "searchPlaceholder": "د ښار په نوم لټون وکړئ",
-    "filterByProvince": "د ولایت لخوا فلټر کول",
-    "totalRecords": "ټول ریکارډونه",
-    "tooltipView": "جزیات",
-    "tooltipEdit": "لار سمول",
-    "tooltipDelete": "حذف مسیر",
-    "table_stops": "تمځایونه",
-    "status_filter": "د حالت له مخې فلټر کړئ"
+  "agentManagement": {
+    "searchPlaceholder": "د نوم، بریښنالیک، تلیفون په واسطه پلټل...",
+    "dateFilter": "د نیټې فلټر",
+    "advanceFilter": "پرمختللی فلټر",
+    "clearAll": "ټول پاک کړئ",
+    "createAgent": "استازی جوړ کړئ",
+    "noResults": "د \"{search}\" لپاره هیڅ پایله ونه موندل شوه",
+    "noAgents": "هیڅ استازی ونه موندل شو",
+    "errorLoading": "په معلوماتو بګرځولو کې ستونزه",
+    "retry": "بیا هڅه وکړئ",
+    "columns": {
+      "profile": "پروفایل",
+      "username": "د کارن نوم",
+      "email": "بریښنالیک",
+      "mobileNumber": "د موبایل شمیره",
+      "commissionRate": "د کمیسیون نرخ",
+      "address": "پته",
+      "status": "حالت",
+      "createdAt": "د جوړیدو نیټه",
+      "actions": "کړنې"
+    },
+    "statusOptions": {
+      "active": "فعال",
+      "inactive": "غیر فعال",
+      "suspended": "درېدلی"
+    },
+    "accountTypeOptions": {
+      "merchant": "سوداګر",
+      "retailer": "خرده سوداګر"
+    },
+    "deleteConfirm": "آیا تاسو ډاډه یاست چې تاسو غواړئ دا استازی حذف کړئ؟",
+    "deleteSuccess": "استازی په بریالیتوب سره حذف شو",
+    "deleteError": "د استازی حذف کول ناکام شول"
   },
-  "createOperatorPageValues": {
-    "goback": "بېرته لاړ شئ",
-    "title": "نوې لاره جوړه کړئ",
-    "basic_information": "اساسي معلومات",
-    "en_name": "د لارې انګلیسي نوم",
-    "en_validationError": "د لارې انګلیسي نوم اړین دی!",
-    "ps_name": "د لارې پښتو نوم",
-    "ps_validationError": "د لارې پښتو نوم اړین دی!",
-    "fa_name": "د لارې دري نوم",
-    "fa_validationError": "د لارې دري نوم اړین دی!",
-    "origin": "د پيل ښار",
-    "origin_errorMessage": "د پيل ښار اړین دی!",
-    "destination": "د منزل ښار",
-    "destination_errorMessage": "د منزل ښار اړین دی!",
-    "total_distance": "ټول واټن (کیلومتر)",
-    "total_distance_numberError": "ټول واټن باید یوازې عدد وي!",
-    "total_distance_requiredError": "ټول واټن اړین دی!",
-    "route_status": "د لارې وضعیت",
-    "route_status_errorMessage": "د لارې وضعیت اړین دی!",
-    "Route_stops": "د لارې تمځایونه",
-    "stop_city": "د تمځای ښار",
-    "stop_city_errorMessage": "د تمځای ښار اړین دی!",
-    "stop_order": "د تمځای ترتیب",
-    "stop_order_errorMessage": "د تمځای ترتیب اړین دی!",
-    "stop_type": "د تمځای ډول",
-    "stop_type_errorMessage": "د تمځای ډول اړین دی!",
-    "edit_stop": "تمځای سم کړئ",
-    "delete_stop": "تمځای ړنګ کړئ",
-    "add_stop": "تمځای اضافه کړئ",
-    "en_name_placeholder": "د لارې انګلیسي نوم دننه کړئ",
-    "ps_name_placeholder": "د لارې پښتو نوم دننه کړئ",
-    "fa_name_placeholder": "د لارې دري نوم دننه کړئ",
-    "origin_placeholder": "د پيل ښار وټاکئ",
-    "destination_placeholder": "د منزل ښار وټاکئ",
-    "total_distance_placeholder": "ټول واټن په کیلومتره دننه کړئ",
-    "status_placeholder": "وضعیت وټاکئ",
-    "stop_city_placeholder": "د تمځای ښار وټاکئ",
-    "stop_order_placeholder": "د تمځای ترتیب دننه کړئ",
-    "stop_type_placeholder": "د تمځای ډول وټاکئ",
-    "submit": "سپارل"
+  "walletManagement": {
+    "primaryWallet": "اصلي بټۍ",
+    "commissionWallet": "د کمیسیون بټۍ",
+    "transfer": "لیږد",
+    "searchPlaceholder": "د بټۍ پېژندګلو، د استازي نوم/بریښنالیک، د محصول نوم په واسطه پلټل...",
+    "dateFilter": "د نیټې فلټر",
+    "advanceFilter": "پرمختللی فلټر",
+    "clearAll": "ټول پاک کړئ",
+    "noResults": "د \"{search}\" لپاره هیڅ پایله ونه موندل شوه",
+    "noTransactions": "هیڅ معاملات شتون نلري",
+    "errorLoading": "تېروتنه",
+    "loadDataFailed": "د معلوماتو بګرځولو کې ناکامي",
+    "retry": "بیا هڅه وکړئ",
+    "amountRange": "د پیسو حد",
+    "columns": {
+      "fromWallet": "د بټۍ څخه",
+      "toWallet": "بټۍ ته",
+      "type": "ډول",
+      "amount": "مقدار",
+      "openingBalance": "لومړنی بیلانس",
+      "closingBalance": "پایلی بیلانس",
+      "isStock": "آیا ذخیره ده",
+      "product": "محصول",
+      "createdAt": "د جوړیدو نیټه"
+    },
+    "typeOptions": {
+      "in": "ذخیره دننه",
+      "out": "ذخیره بهر"
+    }
+  },
+  "common": {
+    "yes": "هو",
+    "no": "نه"
+  },
+  "purchaseStock": {
+    "searchPlaceholder": "د پېژندګلو، د تادیې طریقې، حالت په واسطه پلټل...",
+    "dateFilter": "د نیټې فلټر",
+    "advanceFilter": "پرمختللی فلټر",
+    "clearAll": "ټول پاک کړئ",
+    "purchaseStock": "ذخیره پیرود",
+    "noResults": "د \"{search}\" لپاره هیڅ پایله ونه موندل شوه",
+    "noRequestsAvailable": "هیڅ د پیرود غوښتنه شتون نلري",
+    "errorLoading": "په معلوماتو بګرځولو کې ستونزه",
+    "errorLoadingRequests": "د پیرود غوښتنې بګرځول ناکام شول",
+    "retry": "بیا هڅه وکړئ",
+    "amountRange": "د پیسو حد",
+    "viewAttachment": "ضمیمه وګورئ",
+    "noAttachment": "هیڅ ضمیمه نشته",
+    "statusOptions": {
+      "pending": "په تمه",
+      "rejected": "رد شوی",
+      "approved": "تایید شوی",
+      "verify": "تایید",
+      "transfer": "لیږد"
+    },
+    "paymentOptions": {
+      "cash": "نغدي",
+      "card": "کارت",
+      "bankTransfer": "بانکي لیږد"
+    },
+    "columns": {
+      "createdAt": "د جوړیدو نیټه",
+      "amount": "مقدار",
+      "paymentMethod": "د تادیې طریقه",
+      "status": "حالت",
+      "attachment": "ضمیمه"
+    }
+  },
+  "reverseStock": {
+  "searchPlaceholder": "د خرده فروش، حالت، مقدار په اساس پلټنه...",
+  "dateFilter": "د تاریخ فلتر",
+  "advanceFilter": "پرمختللی فلتر",
+  "clearAll": "ټول پاک کړئ",
+  "newRequest": "نوی غوښتنه",
+  "noResults": "د \"{search}\" لپاره هیڅ نتیجه ونه موندل شوه",
+  "noRequestsAvailable": "د موجودي د راګرځولو هیڅ غوښتنې شتون نلري",
+  "errorLoading": "د معلوماتو په بار کولو کې تېروتنه",
+  "errorLoadingRequests": "د موجودي د راګرځولو غوښتنې په بار کولو کې ناکامي",
+  "retry": "بیا هڅه وکړئ",
+  "amountRange": "د مقدار حد",
+  "viewAttachment": "ضمیمه وګورئ",
+  "noAttachment": "هیڅ ضمیمه نشته",
+  "statusOptions": {
+    "processing": "په پروسه کې",
+    "rejected": "رد شوی",
+    "completed": "بشپړ شوی"
+  },
+  "columns": {
+    "createdAt": "د جوړولو نیټه",
+    "retailer": "خرده فروش",
+    "amount": "مقدار",
+    "status": "حالت",
+    "attachment": "ضمیمه"
+  }
+
+},
+"tickets": {
+    "searchPlaceholder": "د تیکټونو لټون...",
+    "dateFilter": "د نیټې فلټر",
+    "advanceFilter": "پرمختللی فلټر",
+    "createTicket": "تیکټ جوړول",
+    "filtersApplied": "فلټرونه تطبیق شوي",
+    "clearAllFilters": "ټول فلټرونه پاک کړئ",
+    "clearFilters": "فلټرونه پاک کړئ",
+    "noResults": "د \"{search}\" لپاره هیڅ نتیجه ونه موندل شوه",
+    "noTicketsAvailable": "هیڅ تیکټونه شتون نلري",
+    "errorLoading": "د تیکټونو پورته کول ناکام شول",
+    "retry": "بیا هڅه وکړئ",
+    "view": "لیدل",
+    "date": "نیټه",
+    "columns": {
+      "id": "آی ډي",
+      "type": "ډول",
+      "description": "تفصیل",
+      "status": "حالت",
+      "createdAt": "د جوړیدو نیټه",
+      "actions": "کړنې"
+    },
+    "statusOptions": {
+      "pending": "په تمه کې",
+      "resolved": "حل شوی",
+      "rejected": "رد شوی"
+    }
+  },
+  "stockTransfer": {
+    "agent": "استازی",
+    "amount": "مقدار",
+    "commissionRate": "د کمیسیون نرخ",
+    "totalAmount": "ټوله مقدار",
+    "createdAt": "د جوړیدو نیټه",
+    "transferAmount": "مقدار لیږدول",
+    "errorLoading": "د سهام لیږدول پورته کول ناکام شو"
+  },
+  "common2": {
+    "search": "پلټنه...",
+    "filter": "فلټر",
+    "noDataFound": "هیڅ معلومات ونه موندل شو!",
+    "retry": "بیا هڅه"
   }
 }

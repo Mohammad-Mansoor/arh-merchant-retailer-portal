@@ -14,7 +14,7 @@ export const signIn = async (payload) => {
 export const getUserInfo = async () => {
   const lang = localStorage.getItem("i18nextLng");
   try {
-    const res = await apiClient.get(`profile?lang=${lang}`);
+    const res = await apiClient.get(`profile/?lang=${lang}`);
     return res.data;
   } catch (error) {
     console.log(error);

@@ -12,19 +12,19 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-// Custom styled Dialog with blur
+
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
     backdropFilter: "blur(6px)",
   },
   "& .MuiPaper-root": {
-    width: "90%", // default for small screens
+    width: "90%", 
     maxWidth: "100%",
     border: `1px solid ${theme.palette.mode === "dark" ? "#444" : "#d32f2f"}`,
     borderRadius: 12,
     padding: theme.spacing(2),
 
-    // ✅ Responsive width per breakpoint
+
     [theme.breakpoints.up("sm")]: {
       width: "90%",
     },
@@ -88,6 +88,7 @@ export default function TransferModal({ open, onClose }) {
   const getAgentDetails = async () => {
     try {
       const res = await getSinglAgentDetails(payload.agentId);
+      
       return res;
     } catch (error) {
       console.log(error);
@@ -123,7 +124,10 @@ export default function TransferModal({ open, onClose }) {
     setValidationErrors({});
   };
 
-  const closeSuccessModal = () => setIsTransferSuccess(false);
+  const closeSuccessModal = () => {
+    setIsTransferSuccess(false);
+    handleClose(); 
+  };
   const closeErrorModal = () => setIsError(false);
   const checkValidation = () => {
     const errors = {};
@@ -146,7 +150,12 @@ export default function TransferModal({ open, onClose }) {
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
+  const handleClose = () => {
+    setAmount("");
+    setErrorMessage("");
+    setTransferAll(false);
+    onClose();
+  };
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (payload) => transferStockToDownlineAgent(payload),
     onSuccess: () => {
@@ -184,12 +193,7 @@ export default function TransferModal({ open, onClose }) {
   return (
     <StyledDialog
       open={open}
-      onClose={() => {
-        setErrorMessage("");
-        resetForm();
-        setAmount(null);
-        onClose();
-      }}
+    onClose={handleClose}
     >
       <SuccessModal
         open={isTransferSuccess}
