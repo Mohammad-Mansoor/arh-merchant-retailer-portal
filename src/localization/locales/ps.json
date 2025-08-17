@@ -190,5 +190,93 @@
     "filter": "فلټر",
     "noDataFound": "هیڅ معلومات ونه موندل شو!",
     "retry": "بیا هڅه"
+  },
+  "dataTable": {
+    "noResults": "د \"{search}\" لپاره هیڅ نتیجه ونه موندل شوه",
+    "noDataAvailable": "هیڅ معلومات شتون نلري",
+    "errorLoading": "تېروتنه",
+    "loadDataFailed": "د معلوماتو پورته کول ناکام شول",
+    "retry": "بیا هڅه وکړئ",
+    "showingResultsFor": "د لټون پایلې ښکاره کوي",
+    "showingRecords": "ښکاره کول {start} تر {end} د {total} ریکارډونو څخه",
+    "rowsPerPage": "رېډونه په هر پاڼه کې",
+    "firstPage": "لومړی پاڼه",
+    "previousPage": "پخوانۍ پاڼه",
+    "nextPage": "بل پاڼه",
+    "lastPage": "وروستی پاڼه",
+    "pageInfo": "پاڼه {current} له {total} څخه"
+  },
+  "transferModal": {
+    "title": "د کمیسیون بټې پیسې لومړني بټې ته لیږدول",
+    "enterAmount": "مقدار دننه کړئ",
+    "amountPlaceholder": "مقدار دننه کړئ",
+    "transferAll": "ټول موجوده پیسې لیږدول",
+    "cancel": "لغوه کول",
+    "transfer": "لیږدول",
+    "transferring": "په لیږدولو کې...",
+    "allAvailable": "ټول موجود",
+    "amount": "مقدار",
+    "date": "نېټه",
+    "errors": {
+      "amountRequired": "مهرباني وکړئ د لیږد مقدار دننه کړئ",
+      "amountNumber": "مقدار باید یو شمیر وي",
+      "transferFailed": "لیږد ناکام شو. بیا هڅه وکړئ!",
+      "transferFailedTitle": "په لیږد کې ناکامي"
+    }
+  },
+  "successModal": {
+    "title": "مقدار په بریالیتوب سره ولېږدول شو!",
+    "transferredAmount": "لېږدول شوی مقدار",
+    "goBack": "بیرته ستون"
+  },
+  "common3": {
+    "currency": "AFG"
+  },
+  "errorModal": {
+    "defaultTitle": "تېروتنه رامنځته شوه!",
+    "defaultError": "یوه ناڅاپه تېروتنه رامنځته شوه. مهرباني وکړئ بیا هڅه وکړئ.",
+    "retry": "بیا هڅه وکړئ",
+    "goBack": "بیرته ستون",
+    "errorImageAlt": "د تېروتنې انځور"
+  },
+  "transferModal2": {
+  "title": "ذخیره د لاندني استازې ته لیږدول",
+  "agentLabel": "استازی وټاکئ",
+  "amountLabel": "مقدار دننه کړئ",
+  "commissionLabel": "د کمیسیون نرخ",
+  "totalAmountLabel": "ټول مقدار",
+  "closeButton": "بندول",
+  "transferButton": "لیږدول",
+  "loading": "بار کېدل...",
+  "amount": "مقدار",
+  "commissionRate": "د کمیسیون نرخ",
+  "totalAmount": "ټول مقدار",
+  "date": "نېټه",
+  "successMessage": "لیږدول بریالی شو!",
+  "errorMessage": "لیږدول ناکام شو. بیا هڅه وکړئ!",
+  "errorTitle": "د مقدار لیږدول کې ناکامي",
+  "errors": {
+    "agentRequired": "مهرباني وکړئ یو استازی وټاکئ",
+    "amountRequired": "مهرباني وکړئ مقدار دننه کړئ",
+    "amountPositive": "مقدار باید له 0 څخه ډیر وي",
+    "commissionRequired": "مهرباني وکړئ د کمیسیون نرخ په سلنه کې دننه کړئ",
+    "commissionRange": "د کمیسیون نرخ باید د 0 او 100 ترمنځ وي"
   }
+},
+"successModal1": {
+  "title": "ذخیره په بریالیتوب سره لیږدول شوه!",
+  "amount": "مقدار",
+  "commissionRate": "د کمیسیون نرخ",
+  "totalAmount": "ټول مقدار",
+  "date": "نېټه",
+  "goBack": "بیرته ستون",
+  "successIcon": "د بریالیتوب نښه"
+},
+"errorModal1": {
+  "defaultTitle": "تېروتنه رامنځته شوه!",
+  "defaultError": "یوه ناڅاپه تېروتنه رامنځته شوه. مهرباني وکړئ بیا هڅه وکړئ.",
+  "retry": "بیا هڅه وکړئ",
+  "goBack": "بیرته ستون",
+  "errorIconAlt": "د تېروتنې انځور"
+}
 }

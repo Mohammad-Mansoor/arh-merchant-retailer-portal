@@ -7,6 +7,7 @@ import DemographicCard from "../../components/ecommerce/DemographicCard";
 import PageMeta from "../../components/common/PageMeta";
 import Filter from "../../components/Data Filter/Filter";
 import CombinedStatisticsChart1 from "../../components/ecommerce/StatisticsChart1";
+import CombinedStatisticsChart2 from "../../components/ecommerce/Statics2";
 
 
 export default function Home() {
@@ -19,12 +20,12 @@ export default function Home() {
      
           {/* <Filter/> */}
 
-          <MonthlySalesChart />
+          {/* <MonthlySalesChart /> */}
         </div>
 
-        <div className="col-span-12 xl:col-span-5">
+        {/* <div className="col-span-12 xl:col-span-5">
           <MonthlyTarget />
-        </div>
+        </div> */}
 
         <div className="col-span-12">
           <StatisticsChart />
@@ -34,13 +35,17 @@ export default function Home() {
     
           <CombinedStatisticsChart1 />
         </div>
-        <div className="col-span-12 xl:col-span-5">
+          <div className="col-span-12">
+    
+          <CombinedStatisticsChart2 />
+        </div>
+        {/* <div className="col-span-12 xl:col-span-5">
           <DemographicCard />
         </div>
 
         <div className="col-span-12 xl:col-span-12">
           <RecentOrders />
-        </div>
+        </div> */}
       </div>
     </>
   );

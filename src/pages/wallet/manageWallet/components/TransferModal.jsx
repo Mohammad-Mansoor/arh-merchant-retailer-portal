@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { transferToPrimaryWallet } from "../../../../services/transfer_comission_to_primary_service";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -24,7 +25,8 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function TransferModal({ open, onClose, onTransferSuccess  }) {
+export default function TransferModal({ open, onClose, onTransferSuccess }) {
+  const { t } = useTranslation();
   const userInfo = useSelector((state) => state.auth.user);
   const [amount, setAmount] = useState("");
   const [isTransferSuccess, setIsTransferSuccess] = useState(false);
@@ -42,15 +44,13 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (payload) => transferToPrimaryWallet(userInfo?.id, payload),
     onSuccess: () => {
-      // toast.success("Transfer successful!");
       setIsTransferSuccess(true);
       onTransferSuccess?.();
     },
     onError: (error) => {
       console.log("Transfer error:", error);
       const message =
-        error?.response?.data?.error || "Transfer failed. Try again!";
-      // toast.error(message);
+        error?.response?.data?.error || t("transferModal.errors.transferFailed");
       setErrorMessage(message);
       setFailed(true);
     },
@@ -68,7 +68,9 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
 
     if (!transferAll && (!amount || isNaN(amount))) {
       setErrorMessage(
-        !amount ? "Please enter the transfer amount" : "Amount must be a number"
+        !amount 
+          ? t("transferModal.errors.amountRequired")
+          : t("transferModal.errors.amountNumber")
       );
       return;
     }
@@ -86,23 +88,23 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
       <SuccessModal
         open={isTransferSuccess}
         onClose={closeSuccessModal}
-        amount={transferAll ? "All Available" : amount}
+        amount={transferAll ? t("transferModal.allAvailable") : amount}
       />
 
       <ErrorModal
         open={failed}
         onClose={closeErrorModal}
-        title={"Failed To Transfer Amount"}
+        title={t("transferModal.errors.transferFailedTitle")}
         error={errorMessage}
         onRetry={handleTransfer}
       >
         <div className="w-full">
           <div className="flex items-center justify-between">
-            <h3>Amount</h3>
-            <h3>{transferAll ? "All Available" : amount}</h3>
+            <h3>{t("transferModal.amount")}</h3>
+            <h3>{transferAll ? t("transferModal.allAvailable") : amount}</h3>
           </div>
           <div className="flex items-center justify-between">
-            <h3>Date</h3>
+            <h3>{t("transferModal.date")}</h3>
             <h3>{new Date().toLocaleDateString()}</h3>
           </div>
         </div>
@@ -110,11 +112,13 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
 
       <div className="px-5 py-3">
         <h3 className="my-3 text-[16px] font-semibold">
-          Transfer Commission Wallet Amount to Primary Wallet
+          {t("transferModal.title")}
         </h3>
 
         <div className="flex flex-col">
-          <label className="my-2 font-medium">Enter Amount</label>
+          <label className="my-2 font-medium">
+            {t("transferModal.enterAmount")}
+          </label>
 
           <input
             disabled={transferAll}
@@ -124,7 +128,7 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
             }}
             value={amount}
             type="text"
-            placeholder="Enter amount"
+            placeholder={t("transferModal.amountPlaceholder")}
             className={`w-full border rounded-md py-2 px-3 transition-all duration-300 outline-none ${
               transferAll
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
@@ -155,7 +159,7 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
                 }}
               />
             }
-            label="Transfer all available balance"
+            label={t("transferModal.transferAll")}
             className="mt-4 text-sm font-medium"
           />
         </div>
@@ -165,7 +169,7 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
             onClick={handleClose}
             className="py-2 px-6 border border-gray-400 rounded-md w-[30%] text-sm"
           >
-            Cancel
+            {t("transferModal.cancel")}
           </button>
           <button
             onClick={handleTransfer}
@@ -176,7 +180,7 @@ export default function TransferModal({ open, onClose, onTransferSuccess  }) {
             }`}
             disabled={loading}
           >
-            {loading ? "Transferring..." : "Transfer"}
+            {loading ? t("transferModal.transferring") : t("transferModal.transfer")}
           </button>
         </div>
       </div>

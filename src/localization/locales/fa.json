@@ -189,6 +189,94 @@
     "filter": "فیلتر",
     "noDataFound": "دیتا پیدا نشد!",
     "retry": "تلاش مجدد"
+  },
+   "dataTable": {
+    "noResults": "نتیجه‌ای برای \"{search}\" یافت نشد",
+    "noDataAvailable": "داده‌ای موجود نیست",
+    "errorLoading": "خطا",
+    "loadDataFailed": "بارگیری اطلاعات ناموفق بود",
+    "retry": "تلاش مجدد",
+    "showingResultsFor": "نمایش نتایج برای",
+    "showingRecords": "نمایش {start} تا {end} از {total} رکورد",
+    "rowsPerPage": "ردیف در هر صفحه",
+    "firstPage": "صفحه اول",
+    "previousPage": "صفحه قبلی",
+    "nextPage": "صفحه بعدی",
+    "lastPage": "صفحه آخر",
+    "pageInfo": "صفحه {current} از {total}"
+  },
+  "transferModal": {
+    "title": "انتقال مقدار کیف پول کمیسیون به کیف پول اصلی",
+    "enterAmount": "مقدار را وارد کنید",
+    "amountPlaceholder": "مقدار را وارد کنید",
+    "transferAll": "انتقال تمام موجودی قابل دسترس",
+    "cancel": "لغو",
+    "transfer": "انتقال",
+    "transferring": "در حال انتقال...",
+    "allAvailable": "همه موجودی",
+    "amount": "مقدار",
+    "date": "تاریخ",
+    "errors": {
+      "amountRequired": "لطفا مقدار انتقال را وارد کنید",
+      "amountNumber": "مقدار باید یک عدد باشد",
+      "transferFailed": "انتقال ناموفق بود. دوباره تلاش کنید!",
+      "transferFailedTitle": "عدم موفقیت در انتقال مقدار"
+    }
+  },
+  "successModal": {
+    "title": "مقدار با موفقیت انتقال یافت!",
+    "transferredAmount": "مقدار انتقال یافته",
+    "goBack": "بازگشت"
+  },
+  "common3": {
+    "currency": "افغانی"
+  },
+  "errorModal": {
+    "defaultTitle": "خطا رخ داده است!",
+    "defaultError": "یک خطای غیرمنتظره رخ داده است. لطفاً دوباره تلاش کنید.",
+    "retry": "دوباره تلاش کنید",
+    "goBack": "بازگشت",
+    "errorImageAlt": "تصویر خطا"
+  },
+  "transferModal": {
+  "title": "انتقال سهام به نماینده زیرمجموعه",
+  "agentLabel": "انتخاب نماینده",
+  "amountLabel": "مقدار را وارد کنید",
+  "commissionLabel": "نرخ کمیسیون",
+  "totalAmountLabel": "مبلغ کل",
+  "closeButton": "بستن",
+  "transferButton": "انتقال",
+  "loading": "در حال بارگذاری...",
+  "amount": "مقدار",
+  "commissionRate": "نرخ کمیسیون",
+  "totalAmount": "مبلغ کل",
+  "date": "تاریخ",
+  "successMessage": "انتقال موفقیت آمیز بود!",
+  "errorMessage": "انتقال ناموفق بود. دوباره تلاش کنید!",
+  "errorTitle": "عدم موفقیت در انتقال مقدار",
+  "errors": {
+    "agentRequired": "لطفاً یک نماینده انتخاب کنید",
+    "amountRequired": "لطفاً مقدار را وارد کنید",
+    "amountPositive": "مقدار باید بیشتر از 0 باشد",
+    "commissionRequired": "لطفاً نرخ کمیسیون را به درصد وارد کنید",
+    "commissionRange": "نرخ کمیسیون باید بین 0 تا 100 باشد"
   }
+},
+"successModal1": {
+  "title": "انتقال سهام موفقانه انجام شد!",
+  "amount": "مقدار",
+  "commissionRate": "نرخ کمیسیون",
+  "totalAmount": "مبلغ کل",
+  "date": "تاریخ",
+  "goBack": "بازگشت",
+  "successIcon": "آیکون تیک موفقیت"
+},
+"errorModal1": {
+  "defaultTitle": "خطا رخ داده است!",
+  "defaultError": "یک خطای غیرمنتظره رخ داده است. لطفاً دوباره تلاش کنید.",
+  "retry": "دوباره تلاش کنید",
+  "goBack": "بازگشت",
+  "errorIconAlt": "تصویر خطا"
+}
 
 }

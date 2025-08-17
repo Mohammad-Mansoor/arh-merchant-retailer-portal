@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import { getPurchaseRequests } from "../../services/saleRequest";
 
-// Updated transform function to filter by transfer status
+
 function transformPurchaseData(purchases, range) {
   const isMonthly = range === "monthly";
   const categories = isMonthly 
@@ -16,7 +16,7 @@ function transformPurchaseData(purchases, range) {
 
   const totals = categories.map(() => ({ amount: 0, count: 0 }));
 
-  // Filter purchases with transfer status first
+
   const transferPurchases = purchases.filter(purchase => 
     purchase.status?.toLowerCase() === "transfer"
   );

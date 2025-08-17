@@ -1,269 +1,434 @@
-import { useState } from "react";
-import { Link } from "react-router";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import Checkbox from "../form/input/Checkbox";
-import { useDispatch, useSelector } from "react-redux";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-export default function SignUpForm() {
-  const [isAnimating, setIsAnimating] = useState(false);
-const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const [showMerchantLogin, setShowMerchantLogin] = useState(false);
-  const [showOTP, setShowOTP] = useState(false);
-  const [OTP, setOTP] = useState("");
-  const user = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+// src/pages/agent-signup/SignUpForm.jsx
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { 
+  Box, 
+  Avatar, 
+  CircularProgress, 
+  TextField, 
+  Autocomplete,
+  Button
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Camera } from "lucide-react";
+import { signUpAgent } from "../../services/agent_management_service";
+import { 
+  getCoutries, 
+  getProvincesBaseOnCountry, 
+  getDistrictsBaseOnProvince 
+} from "../../services/public_service";
+import { useQuery } from "@tanstack/react-query";
 
+const languages = [
+  { label: "English", value: "english", icon: "https://flagcdn.com/us.svg" },
+  { label: "Dari", value: "dari", icon: "https://flagcdn.com/af.svg" },
+  { label: "Pashto", value: "pashto", icon: "https://flagcdn.com/af.svg" },
+];
+
+const StyledForm = styled("form")(({ theme }) => ({
+  width: "100%",
+  maxWidth: "800px",
+  margin: "0 auto",
+  padding: theme.spacing(3),
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[3],
+  transition: "all 0.3s ease",
+  "&:hover": {
+    boxShadow: theme.shadows[6],
+  },
+}));
+
+const FormSection = styled("div")(({ theme }) => ({
+  marginBottom: theme.spacing(4),
+  padding: theme.spacing(3),
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.default,
+}));
+
+const SectionTitle = styled("h3")(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  color: theme.palette.primary.main,
+  paddingBottom: theme.spacing(1),
+  fontWeight: 600,
+  fontSize: "1.2rem",
+  position: "relative",
+  "&:after": {
+    content: '""',
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "50px",
+    height: "3px",
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "3px",
+  },
+}));
+
+const redFocusStyles = {
+  width: "100%",
+  borderRadius: "8px",
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": { 
+      borderColor: "#CD0C02 !important",
+      boxShadow: "0 0 0 2px rgba(205, 12, 2, 0.2)",
+    },
+    "&:hover fieldset": { borderColor: "#ff6666" },
+  },
+  "& .MuiInputLabel-root.Mui-focused": { 
+    color: "#CD0C02 !important",
+    fontWeight: 600,
+  },
+  "& .MuiAutocomplete-popupIndicator.Mui-focused": { color: "#CD0C02" },
+};
+
+export default function SignUpForm() {
+  const navigate = useNavigate();
+  const fileRef = React.useRef(null);
+  const [errors, setErrors] = useState({});
+  
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobileNumber: "",
+    alternativeContact: "",
+    country: "",
+    province: "",
+    district: "",
+    address: "",
+    messageLanguage: "",
+    profile_picture: "",
+    status: "active", // Set by default
+    accountType: "merchant", // Set by default
+    registrationType: "direct", // Set by default
+  });
+
+  const { data: countries, isLoading: loadingCountries } = useQuery({
+    queryKey: ["countries"],
+    queryFn: getCoutries,
+  });
+
+  const { data: provinces, isLoading: loadingProvinces } = useQuery({
+    queryKey: ["provinces", formData.country],
+    queryFn: () => getProvincesBaseOnCountry(formData.country),
+    enabled: !!formData.country,
+  });
+
+  const { data: districts, isLoading: loadingDistricts } = useQuery({
+    queryKey: ["districts", formData.province],
+    queryFn: () => getDistrictsBaseOnProvince(formData.province),
+    enabled: !!formData.province,
+  });
+
+  const mutation = useMutation({
+    mutationFn: (formData) => signUpAgent(formData),
+    onSuccess: () => {
+      toast.success("Agent account created successfully!");
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.error("Sign up error:", error);
+      toast.error(error.response?.data?.error || "Failed to create agent account");
+    },
+  });
+
+  const handleChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        handleChange("profile_picture", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.firstName) newErrors.firstName = "First name is required";
+    if (!formData.lastName) newErrors.lastName = "Last name is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.mobileNumber) newErrors.mobileNumber = "Phone number is required";
+    if (!formData.country) newErrors.country = "Country is required";
+    if (!formData.province) newErrors.province = "Province is required";
+    if (!formData.district) newErrors.district = "District is required";
+    if (!formData.address) newErrors.address = "Address is required";
+    if (!formData.messageLanguage) newErrors.messageLanguage = "Language is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      if (!email) {
-        errors.email = "Email is required";
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errors.email = "Invalid email format";
-      }
-  
-      if (!password) {
-        errors.password = "Password is required";
-      } else if (password.length < 6) {
-        errors.password = "Password must be at least 6 characters";
-      }
-  
-      if (Object.keys(errors).length > 0) {
-        console.log("Validation Errors:", errors);
-        return;
-      }
-      console.log("Signing in with:", { email, password, rememberMe });
-      const payload = { identifier: email, password, rememberMe };
-      try {
-        const res = await signIn(payload);
-        console.log("this is response: ", res);
-        if (res.access_token) {
-          dispatch(loginSuccess(res.access_token));
-  
-          const user = await getUserInfo();
-          console.log("User Info:", user);
-          dispatch(setUser(user?.data));
-        } else {
-          console.error("Sign-in failed:", res.message);
-      
-        }
-      } catch (error) {
-        console.error("Sign-in error:", error);
-       
-      }
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    const username = `${formData.firstName} ${formData.lastName}`;
+    
+    const payload = {
+      ...formData,
+      username,
+      permissions: [], 
+      user_type: "agent",
     };
-  
-  
-  
-  
-    const handleEmailSubmit = (e) => {
-      e.preventDefault();
-      const validationErrors = {};
-      
-      if (!email) {
-        validationErrors.email = "Email is required";
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        validationErrors.email = "Invalid email format";
-      }
-  
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-        return;
-      }
-      
-  
-      setShowOTP(true);
-    };
-  
-   const handleOTPSubmit = (e) => {
-      e.preventDefault();
-      console.log("OTP submitted:", OTP);
-    };
-  return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-indigo-900 dark:to-purple-900 p-4">
-         <div className="w-full max-w-md">
-           <div
-             className={`transform transition-all duration-700 ${
-               isAnimating
-                 ? "opacity-0 translate-y-10"
-                 : "opacity-100 translate-y-0"
-             }`}
-           >
-             
-    <div className="bg-white dark:bg-gray-850 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-800">
-                 <div className="h-2 bg-gradient-to-r from-[#FF8B4C] via-[#FFC857] to-[#FFE9A0]"></div>
-                 
-                 <div className="px-8 pt-3 pb-2">
-                   <div className="text-center mb-8">
-                     <div className="flex justify-center mb-4">
-                    
-                     </div>
-                     <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-                       Register
-                     </h1>
-                     <p className="text-gray-500 dark:text-gray-400">
-                       Register as a reseller
-                     </p>
-                   </div>
-   
-                   <form onSubmit={handleEmailSubmit} className="space-y-5">
-                     <div>
-                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                         First Name
-                       </label>
-                       <div className="relative">
-                         <input
-                           type="text"
-                           value={email}
-          
-                           placeholder="Enter your first name"
-                           className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-[#CD0202] focus:outline-none focus:border-transparent transition-all duration-300"
-                           required
-                         />
-                        
-                       </div>
-                       {errors.email && (
-                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                           {errors.email}
-                         </p>
-                       )}
-              
-                     </div>
-                              <div>
-                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                         Last Name
-                       </label>
-                       <div className="relative">
-                         <input
-                           type="text"
-                           value={email}
-          
-                           placeholder="Enter your last name"
-                           className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-[#CD0202] focus:outline-none focus:border-transparent transition-all duration-300"
-                           required
-                         />
-                        
-                       </div>
-                       {errors.email && (
-                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                           {errors.email}
-                         </p>
-                       )}
-              
-                     </div>
-                     <div>
-                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                         Email
-                       </label>
-                       <div className="relative">
-                         <input
-                           type="email"
-                           value={email}
-          
-                           placeholder="your.email@example.com"
-                           className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-[#CD0202] focus:outline-none focus:border-transparent transition-all duration-300"
-                           required
-                         />
-                         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                           <svg
-                             className="w-5 h-5 text-gray-400"
-                             fill="currentColor"
-                             viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg"
-                           >
-                             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                           </svg>
-                         </div>
-                       </div>
-                       {errors.email && (
-                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                           {errors.email}
-                         </p>
-                       )}
-                   
-                     </div>
-                               <div>
-                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                         Phone Number
-                       </label>
-                       <div className="relative">
-                         <input
-                           type="text"
-                           value={email}
-          
-                           placeholder="Enter your phone number"
-                           className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-[#CD0202] focus:outline-none focus:border-transparent transition-all duration-300"
-                           required
-                         />
-                        
-                       </div>
-                       {errors.email && (
-                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                           {errors.email}
-                         </p>
-                       )}
-              
-                     </div>
-                               <div>
-                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                         Address
-                       </label>
-                       <div className="relative">
-                         <input
-                           type="text"
-                           value={email}
-          
-                           placeholder="Enter your address"
-                           className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-[#CD0202] focus:outline-none focus:border-transparent transition-all duration-300"
-                           required
-                         />
-                        
-                       </div>
-                       {errors.email && (
-                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                           {errors.email}
-                         </p>
-                       )}
-              
-                     </div>
-                      
-    <div>
-                       <button
-                         type="submit"
-                         className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-                       >
-                         Register
-                       </button>
-                         
-                     </div>
-   
+    
+    mutation.mutate(payload);
+  };
 
-   
-                     <div>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-indigo-900 dark:to-purple-900 p-4">
+      <StyledForm onSubmit={handleSubmit}>
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
+            Create Agent Account
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Register as an agent to start managing your business
+          </p>
+        </div>
+
+        <div className="flex justify-center mb-8">
+          <div className="relative w-32 h-32 rounded-full border-2 border-dashed border-gray-300 group">
+            {formData.profile_picture ? (
+              <Avatar 
+                src={formData.profile_picture} 
+                className="w-full h-full transition-transform group-hover:scale-105"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-gray-300 transition-colors">
+                <Camera className="text-gray-500 group-hover:text-gray-700" size={24} />
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => fileRef.current.click()}
+              className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+            >
+              <Camera size={20} />
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleImageUpload}
+              />
+            </button>
+          </div>
+        </div>
+
+        <FormSection>
+          <SectionTitle>Personal Information</SectionTitle>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TextField
+              label="First Name"
+              variant="outlined"
+              fullWidth
+              value={formData.firstName}
+              onChange={(e) => handleChange("firstName", e.target.value)}
+              error={!!errors.firstName}
+              helperText={errors.firstName}
+              sx={redFocusStyles}
+            />
+            <TextField
+              label="Last Name"
+              variant="outlined"
+              fullWidth
+              value={formData.lastName}
+              onChange={(e) => handleChange("lastName", e.target.value)}
+              error={!!errors.lastName}
+              helperText={errors.lastName}
+              sx={redFocusStyles}
+            />
+            <TextField
+              label="Email"
+              type="email"
+              variant="outlined"
+              fullWidth
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
+              sx={redFocusStyles}
+            />
+            <TextField
+              label="Phone Number"
+              variant="outlined"
+              fullWidth
+              value={formData.mobileNumber}
+              onChange={(e) => handleChange("mobileNumber", e.target.value)}
+              error={!!errors.mobileNumber}
+              helperText={errors.mobileNumber}
+              sx={redFocusStyles}
+            />
+            <TextField
+              label="Alternative Contact (Optional)"
+              variant="outlined"
+              fullWidth
+              value={formData.alternativeContact}
+              onChange={(e) => handleChange("alternativeContact", e.target.value)}
+              sx={redFocusStyles}
+            />
+          </div>
+        </FormSection>
+
+        <FormSection>
+          <SectionTitle>Location Information</SectionTitle>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Autocomplete
+              options={countries?.data || []}
+              getOptionLabel={(option) => option.countryName}
+              loading={loadingCountries}
+              onChange={(_, newValue) => handleChange("country", newValue?.id || "")}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Country"
+                  error={!!errors.country}
+                  helperText={errors.country}
+                  sx={redFocusStyles}
+                />
+              )}
+            />
             
-                     </div>
-                   </form>
-                 </div>
-               </div>
-           
-        
-        
-   
-           
-             <div className="mt-6 text-center text-xs text-gray-500 dark:text-gray-400">
-               © {new Date().getFullYear()} AFRH Merchant Portal. All rights
-               reserved.
-             </div>
-           </div>
-         </div>
-       </div>
+            <Autocomplete
+              options={provinces?.data || []}
+              getOptionLabel={(option) => option.provinceName}
+              loading={loadingProvinces}
+              disabled={!formData.country}
+              onChange={(_, newValue) => handleChange("province", newValue?.id || "")}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Province"
+                  error={!!errors.province}
+                  helperText={errors.province}
+                  sx={redFocusStyles}
+                />
+              )}
+            />
+            
+            <Autocomplete
+              options={districts?.data || []}
+              getOptionLabel={(option) => option.districtName}
+              loading={loadingDistricts}
+              disabled={!formData.province}
+              onChange={(_, newValue) => handleChange("district", newValue?.id || "")}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="District"
+                  error={!!errors.district}
+                  helperText={errors.district}
+                  sx={redFocusStyles}
+                />
+              )}
+            />
+            
+            <div className="md:col-span-3">
+              <TextField
+                label="Full Address"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={3}
+                value={formData.address}
+                onChange={(e) => handleChange("address", e.target.value)}
+                error={!!errors.address}
+                helperText={errors.address}
+                sx={redFocusStyles}
+              />
+            </div>
+          </div>
+        </FormSection>
+
+        <FormSection>
+          <SectionTitle>Preferences</SectionTitle>
+          <div className="grid grid-cols-1 gap-4">
+            <Autocomplete
+              options={languages}
+              getOptionLabel={(option) => option.label}
+              onChange={(_, newValue) => handleChange("messageLanguage", newValue?.value || "")}
+              renderOption={(props, option) => (
+                <Box component="li" {...props}>
+                  <Avatar 
+                    src={option.icon} 
+                    sx={{ width: 24, height: 24, mr: 1 }} 
+                  />
+                  {option.label}
+                </Box>
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Preferred Language"
+                  error={!!errors.messageLanguage}
+                  helperText={errors.messageLanguage}
+                  sx={redFocusStyles}
+                />
+              )}
+            />
+          </div>
+        </FormSection>
+
+        <div className="mt-6 flex justify-center">
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            disabled={mutation.isLoading}
+            sx={{
+              minWidth: 200,
+              padding: "12px 24px",
+              fontSize: "1rem",
+              fontWeight: 600,
+              background: 'linear-gradient(45deg, #CD0C02 30%, #EC68B5 90%)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #B10202 30%, #D95CA0 90%)',
+                transform: "translateY(-2px)",
+              },
+              transition: "all 0.3s ease",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            }}
+          >
+            {mutation.isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Create Account"
+            )}
+          </Button>
+        </div>
+
+        <div className="mt-4 text-center">
+          <Button 
+            onClick={() => navigate("/login")} 
+            color="secondary"
+            sx={{
+              color: "#CD0C02",
+              fontWeight: 500,
+              '&:hover': {
+                textDecoration: "underline",
+                backgroundColor: "transparent",
+              }
+            }}
+          >
+            Already have an account? Sign in
+          </Button>
+        </div>
+      </StyledForm>
+    </div>
   );
 }

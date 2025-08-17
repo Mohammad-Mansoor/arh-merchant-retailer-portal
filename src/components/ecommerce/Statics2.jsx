@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import { getAllStockTransferToDownlineAgents } from "../../services/stockTransferToDownlineAgentsService";
 import { useSelector } from "react-redux";
+import { getAllRechargeLogs } from "../../services/product_management_service";
 
 
 function transformPurchaseData(purchases, range) {
@@ -16,10 +17,13 @@ function transformPurchaseData(purchases, range) {
       });
 
   const totals = categories.map(() => ({ amount: 0, count: 0 }));
+  const transferPurchases = purchases.filter(purchase => 
+    purchase.status?.toLowerCase() === "success"
+  );
 
 
 
-  purchases.forEach(purchase => {
+  transferPurchases.forEach(purchase => {
     try {
       const date = new Date(purchase.createdAt);
       let index = -1;
@@ -54,7 +58,7 @@ function transformPurchaseData(purchases, range) {
   };
 }
 
-export default function CombinedStatisticsChart1() {
+export default function CombinedStatisticsChart2() {
   const userInfo = useSelector((state) => state.auth.user);
   const [timeRange, setTimeRange] = useState("monthly");
    const [filter, setFilter] = useState({
@@ -80,14 +84,14 @@ export default function CombinedStatisticsChart1() {
 
 
 const { data, isLoading, isError, error } = useQuery({
-  queryKey: ["stockTransferToDownlineAgents", timeRange, filter],
+  queryKey: ["rechargeLogs", timeRange, filter],
   queryFn: () => {
     const params = {
       'createdAt[gte]': getDateRangeStart(timeRange),
       'createdAt[lte]': new Date().toISOString()
     };
     console.log("API Params:", params); 
-    return getAllStockTransferToDownlineAgents(params, filter);
+    return getAllRechargeLogs(userInfo?.id);
   },
   select: (response) => {
     console.log("Raw API Response:", response?.data); 

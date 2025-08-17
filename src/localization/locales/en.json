@@ -189,5 +189,93 @@
     "filter": "Filter",
     "noDataFound": "No Data Found!",
     "retry": "Retry"
+  },
+   "dataTable": {
+    "noResults": "No results found for \"{search}\"",
+    "noDataAvailable": "No data available",
+    "errorLoading": "Error",
+    "loadDataFailed": "Failed to load data",
+    "retry": "Retry",
+    "showingResultsFor": "Showing results for",
+    "showingRecords": "Showing {start} to {end} of {total} records",
+    "rowsPerPage": "Rows per page",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page",
+    "pageInfo": "Page {current} of {total}"
+  },
+  "transferModal": {
+    "title": "Transfer Commission Wallet Amount to Primary Wallet",
+    "enterAmount": "Enter Amount",
+    "amountPlaceholder": "Enter amount",
+    "transferAll": "Transfer all available balance",
+    "cancel": "Cancel",
+    "transfer": "Transfer",
+    "transferring": "Transferring...",
+    "allAvailable": "All Available",
+    "amount": "Amount",
+    "date": "Date",
+    "errors": {
+      "amountRequired": "Please enter the transfer amount",
+      "amountNumber": "Amount must be a number",
+      "transferFailed": "Transfer failed. Try again!",
+      "transferFailedTitle": "Failed To Transfer Amount"
+    }
+  },
+    "successModal": {
+    "title": "Amount Transferred Successfully!",
+    "transferredAmount": "Transferred Amount",
+    "goBack": "Go Back"
+  },
+  "common3": {
+    "currency": "AFG"
+  },
+   "errorModal": {
+    "defaultTitle": "Error Occurred!",
+    "defaultError": "An unexpected error occurred. Please try again.",
+    "retry": "Retry",
+    "goBack": "Go Back",
+    "errorImageAlt": "Error illustration"
+  },
+  "transferModal2": {
+  "title": "Transfer Stock To Downline Agent",
+  "agentLabel": "Select Agent",
+  "amountLabel": "Enter Amount",
+  "commissionLabel": "Commission rate",
+  "totalAmountLabel": "Total Amount",
+  "closeButton": "Close",
+  "transferButton": "Transfer",
+  "loading": "Loading...",
+  "amount": "Amount",
+  "commissionRate": "Commission Rate",
+  "totalAmount": "Total Amount",
+  "date": "Date",
+  "successMessage": "Transfer successful!",
+  "errorMessage": "Transfer failed. Try again!",
+  "errorTitle": "Failed To Transfer Amount",
+  "errors": {
+    "agentRequired": "Please Select an Agent",
+    "amountRequired": "Please Enter the Amount",
+    "amountPositive": "Amount must be greater than 0",
+    "commissionRequired": "Please Enter the Commission Rate in Percentage",
+    "commissionRange": "Commission Rate must be between 0 and 100"
   }
+},
+"successModal1": {
+  "title": "Stock Transferred Successfully!",
+  "amount": "Amount",
+  "commissionRate": "Commission Rate",
+  "totalAmount": "Total Amount",
+  "date": "Date",
+  "goBack": "Go Back",
+  "successIcon": "Success checkmark icon"
+},
+"errorModal1": {
+  "defaultTitle": "Error Occurred!",
+  "defaultError": "An unexpected error occurred. Please try again.",
+  "retry": "Retry",
+  "goBack": "Go Back",
+  "errorIconAlt": "Error illustration"
+}
 }

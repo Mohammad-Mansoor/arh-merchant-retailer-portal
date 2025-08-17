@@ -22,25 +22,20 @@ export default defineConfig({
   ],
 
   // ⚡ Improves reload speed by caching node_modules parsing
-  optimizeDeps: {
-     include: ["react", "react-dom", "exceljs", "fullcalendar", "react-dnd"],
-  },
+  // optimizeDeps: {
+  //    include: ["react", "react-dom", "exceljs", "fullcalendar", "react-dnd"],
+  // },
 
   // 🚀 Remove sourcemaps in dev for smaller transfers
-  esbuild: {
-    sourcemap: false,
-  },
+  // esbuild: {
+  //   sourcemap: false,
+  // },
 
-  build: {
-    outDir: "../website/public/dashboard",
-    emptyOutDir: true,
-    sourcemap: false, // also no sourcemaps in production
-    chunkSizeWarningLimit: 1000, // so Vite won't spam warnings for big chunks
-  },
+ 
 
-  server: {
-    open: true,
-    // Optional: enable compression so browser downloads less data in dev
-    middlewareMode: false,
-  },
+  // server: {
+  //   open: true,
+  //   // Optional: enable compression so browser downloads less data in dev
+  //   middlewareMode: false,
+  // },
 });

@@ -273,7 +273,8 @@ function ReverseStockPage() {
         />
       )}
       
-      <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-start gap-5 mt-5">
+      <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-5 mt-5">
+       <div className="flex w-[70%] gap-3">
         <div className="w-full md:max-w-[500px] relative">
           <div className="relative bg-gradient-to-r from-[#F8F4FF] to-[#FAF9F3] dark:from-slate-800 dark:text-white dark:to-slate-800 rounded-md border border-[#E4E7EC] dark:border-gray-500">
             <input
@@ -343,7 +344,7 @@ function ReverseStockPage() {
             {t('reverseStock.clearAll')}
           </button>
         )}
-        
+        </div>
         <div className="flex items-center justify-end w-full md:w-auto">
           <button
             onClick={() => setIsModalOpen(true)}

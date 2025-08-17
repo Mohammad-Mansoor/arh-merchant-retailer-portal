@@ -133,7 +133,7 @@ const AppHeader = () => {
 
           <div className="hidden lg:block">
             <form>
-              <div className="relative">
+              {/* <div className="relative">
                 <span className="absolute -translate-y-1/2 pointer-events-none left-4 top-1/2">
                   <svg
                     className="fill-gray-500 dark:fill-gray-400"
@@ -162,7 +162,7 @@ const AppHeader = () => {
                   <span> ⌘ </span>
                   <span> K </span>
                 </button>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>

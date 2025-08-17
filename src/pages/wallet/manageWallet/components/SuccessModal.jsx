@@ -1,7 +1,7 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -21,9 +21,9 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function SuccessModal({ open, onClose, amount }) {
+  const { t } = useTranslation();
   const [stars] = useState(Array(15).fill(0));
   const [visible, setVisible] = useState(false);
-
 
   useEffect(() => {
     let timer;
@@ -43,10 +43,7 @@ export default function SuccessModal({ open, onClose, amount }) {
   return (
     <StyledDialog open={open} onClose={onClose}>
       <div className="w-[400px] text-center relative overflow-visible">
-
-
         <div className="w-full px-6 pt-6 flex items-center justify-center relative z-10">
-
           <div className="success-animation">
             <svg 
               className="checkmark" 
@@ -81,21 +78,25 @@ export default function SuccessModal({ open, onClose, amount }) {
 
         <div className="flex items-center justify-center mt-10">
           <h1 className="text-[24px] mb-4 font-bold">
-            Amount Transferred Successfully!
+            {t("successModal.title")}
           </h1>
         </div>
         
         <div className="flex items-center justify-center flex-col gap-1 py-3 mt-4 w-full rounded-md bg-gradient-to-r from-[#fef2f2] to-[#fff7ed] dark:from-gray-800 dark:to-gray-900 border border-[#fecaca] dark:border-gray-700">
-          <h3 className="text-[16px] font-semibold">Transferred Amount</h3>
-          <p className="text-xl font-bold text-[#CD0C02]">{amount} AFG</p>
+          <h3 className="text-[16px] font-semibold">
+            {t("successModal.transferredAmount")}
+          </h3>
+          <p className="text-xl font-bold text-[#CD0C02]">
+            {amount} {t("common3.currency")}
+          </p>
         </div>
         
         <div className="w-full flex items-center justify-center mt-6">
           <button
             onClick={onClose}
-            className="w-full  flex items-center justify-center text-white py-3 px-6 rounded-md bg-[#CD0C02] hover:bg-[#a80101] transition-colors shadow-lg hover:shadow-red-300/30"
+            className="w-full flex items-center justify-center text-white py-3 px-6 rounded-md bg-[#CD0C02] hover:bg-[#a80101] transition-colors shadow-lg hover:shadow-red-300/30"
           >
-            Go Back
+            {t("successModal.goBack")}
           </button>
         </div>
       </div>

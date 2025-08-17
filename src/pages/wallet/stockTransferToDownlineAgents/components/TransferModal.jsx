@@ -1,4 +1,3 @@
-// ActivateProductModal.tsx
 import React, { useEffect, useState } from "react";
 import { Autocomplete, Dialog, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -11,7 +10,7 @@ import {
 } from "../../../../services/stockTransferToDownlineAgentsService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -23,8 +22,6 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     border: `1px solid ${theme.palette.mode === "dark" ? "#444" : "#d32f2f"}`,
     borderRadius: 12,
     padding: theme.spacing(2),
-
-
     [theme.breakpoints.up("sm")]: {
       width: "90%",
     },
@@ -36,6 +33,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     },
   },
 }));
+
 const redFocusStyles = {
   width: "100%",
   borderRadius: "20px",
@@ -53,10 +51,11 @@ const redFocusStyles = {
     paddingBottom: "0 !important",
   },
 };
+
 export default function TransferModal({ open, onClose }) {
+  const { t } = useTranslation();
   const [amount, setAmount] = useState(null);
   const [childAgents, setChildAgents] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const [isTransferSuccess, setIsTransferSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -88,7 +87,6 @@ export default function TransferModal({ open, onClose }) {
   const getAgentDetails = async () => {
     try {
       const res = await getSinglAgentDetails(payload.agentId);
-      
       return res;
     } catch (error) {
       console.log(error);
@@ -99,13 +97,12 @@ export default function TransferModal({ open, onClose }) {
     const get = async () => {
       if (payload?.agentId) {
         const res = await getAgentDetails();
-        console.log(res, "💞💞💞💞");
         handlePayloadChange("comission_rate", res.data.commission_rate);
       }
     };
     get();
   }, [payload.agentId]);
-  console.log("these are child agents: ", agents);
+
   const handlePayloadChange = (field, value) => {
     setPayload((prev) => ({
       ...prev,
@@ -120,7 +117,6 @@ export default function TransferModal({ open, onClose }) {
       comission_rate: "",
       total_amount: null,
     });
-
     setValidationErrors({});
   };
 
@@ -128,57 +124,56 @@ export default function TransferModal({ open, onClose }) {
     setIsTransferSuccess(false);
     handleClose(); 
   };
+
   const closeErrorModal = () => setIsError(false);
+
   const checkValidation = () => {
     const errors = {};
     if (!payload.agentId) {
-      errors.agentId = "Please Select an Agent";
+      errors.agentId = t("transferModal2.errors.agentRequired");
     }
     if (!payload.amount) {
-      errors.amount = "Please Enter the Amount";
+      errors.amount = t("transferModal2.errors.amountRequired");
     }
     if (payload.amount <= 0) {
-      errors.amount = "Amount must be greater than 0";
+      errors.amount = t("transferModal.errors.amountPositive");
     }
     if (!payload.comission_rate) {
-      errors.comission_rate = "Please Enter the Commission Rate in Percentage";
+      errors.comission_rate = t("transferModal2.errors.commissionRequired");
     }
     if (payload.comission_rate < 0 || payload.comission_rate > 100) {
-      errors.comission_rate = "Commission Rate must be between 0 and 100";
+      errors.comission_rate = t("transferModal2.errors.commissionRange");
     }
 
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
   const handleClose = () => {
     setAmount("");
     setErrorMessage("");
-    setTransferAll(false);
     onClose();
   };
+
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (payload) => transferStockToDownlineAgent(payload),
     onSuccess: () => {
-      toast.success("Transfer successful!");
+      toast.success(t("transferModal2.successMessage"));
       setIsTransferSuccess(true);
-      // setAmount("");
     },
     onError: (error) => {
-      console.log("Transfer error:", error);
       const message =
-        error?.response?.data?.error || "Transfer failed. Try again!";
+        error?.response?.data?.error || t("transferModal2.errorMessage");
       setIsError(true);
       toast.error(message);
       setErrorMessage(message);
-      setFailed(true);
-      // setIsError(true);
     },
   });
+
   const onTransfer = async () => {
     if (!checkValidation()) {
       return;
     }
-
     mutate(payload);
   };
 
@@ -190,11 +185,9 @@ export default function TransferModal({ open, onClose }) {
       (Number(payload.amount) * (100 + Number(payload.comission_rate))) / 100;
     handlePayloadChange("total_amount", parseFloat(totalAmount).toFixed(2));
   }, [payload.comission_rate, payload.amount]);
+
   return (
-    <StyledDialog
-      open={open}
-    onClose={handleClose}
-    >
+    <StyledDialog open={open} onClose={handleClose}>
       <SuccessModal
         open={isTransferSuccess}
         onClose={closeSuccessModal}
@@ -204,31 +197,31 @@ export default function TransferModal({ open, onClose }) {
       <ErrorModal
         open={isError}
         onClose={closeErrorModal}
-        title={"Failed To Transfer Amount"}
+        title={t("transferModal2.errorTitle")}
         error={errorMessage}
         onRetry={onTransfer}
       >
         <div className="w-full bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
           <div className="flex items-center justify-between">
-            <h3>Amount</h3>
+            <h3>{t("transferModal2.amount")}</h3>
             <h3>{payload?.amount}</h3>
           </div>
           <div className="flex items-center justify-between">
-            <h3>Commission Rate</h3>
+            <h3>{t("transferModal2.commissionRate")}</h3>
             <h3>{payload.comission_rate + " %"}</h3>
           </div>
           <div className="flex items-center justify-between">
-            <h3>Total Amount</h3>
-            <h3>{`${payload?.total_amount} AFG`}</h3>
+            <h3>{t("transferModal2.totalAmount")}</h3>
+            <h3>{`${payload?.total_amount} ${t("common3.currency")}`}</h3>
           </div>
           <div className="flex items-center justify-between">
-            <h3>Date</h3>
+            <h3>{t("transferModal2.date")}</h3>
             <h3>{new Date().toLocaleDateString()}</h3>
           </div>
         </div>
       </ErrorModal>
       <div className="px-5 py-3">
-        <h3 className="my-3">Transfer Stock To Downline Agent</h3>
+        <h3 className="my-3">{t("transferModal2.title")}</h3>
 
         <div className="w-full grid grid-cols-12 gap-3">
           <div className="col-span-12 md:col-span-6">
@@ -242,7 +235,7 @@ export default function TransferModal({ open, onClose }) {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Select Agent"
+                  label={t("transferModal2.agentLabel")}
                   sx={redFocusStyles}
                   error={Boolean(validationErrors.agentId)}
                   helperText={
@@ -257,7 +250,7 @@ export default function TransferModal({ open, onClose }) {
             <TextField
               sx={redFocusStyles}
               variant="outlined"
-              label="Enter Amount"
+              label={t("transferModal2.amountLabel")}
               required
               onChange={(e) => {
                 const value = e.target.value;
@@ -273,7 +266,7 @@ export default function TransferModal({ open, onClose }) {
               sx={redFocusStyles}
               value={payload?.comission_rate}
               variant="outlined"
-              label="Commission rate"
+              label={t("transferModal2.commissionLabel")}
               onChange={(e) => {
                 const value = e.target.value;
                 if (!value) handlePayloadChange("total_amount", null);
@@ -294,7 +287,7 @@ export default function TransferModal({ open, onClose }) {
             <TextField
               sx={redFocusStyles}
               variant="outlined"
-              label="Total Amount"
+              label={t("transferModal2.totalAmountLabel")}
               disabled={true}
               value={payload.total_amount || ""}
               InputLabelProps={{
@@ -310,18 +303,18 @@ export default function TransferModal({ open, onClose }) {
               setErrorMessage("");
               setAmount(null);
               resetForm();
-
               onClose();
             }}
-            className="py-2 px-6 border border-gray-400 rounded-md w-[30%] "
+            className="py-2 px-6 border border-gray-400 rounded-md w-[30%] hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
-            Close
+            {t("transferModal2.closeButton")}
           </button>
           <button
             onClick={onTransfer}
-            className="text-white bg-[#CD0C02] w-[70%] py-2 px-6 border border-gray-400 rounded-md "
+            disabled={loading}
+            className="text-white bg-[#CD0C02] hover:bg-[#a80101] w-[70%] py-2 px-6 rounded-md transition-colors disabled:opacity-70"
           >
-            {loading ? "Loading..." : "Transfer"}
+            {loading ? t("transferModal2.loading") : t("transferModal2.transferButton")}
           </button>
         </div>
       </div>

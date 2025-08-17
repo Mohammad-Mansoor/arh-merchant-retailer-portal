@@ -2,11 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Autocomplete,
-  Avatar,
   Box,
   CircularProgress,
   TextField,
-  Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Camera } from "lucide-react";
@@ -67,33 +65,48 @@ export default function EditAgent() {
     registrationType: "indirect",
     accountType: "retailer",
     alternativeContact: "",
-    mobileNumber: "",
-    username: "",
-    email: "",
     country: "",
     province: "",
     district: "",
     address: "",
     messageLanguage: "",
-    profile_picture: "",
-    status: "",
+    commission_rate: 0,
+    user: {
+      username: "",
+      email: "",
+      mobileNumber: "",
+      status: "",
+      profile_picture: "",
+    }
   });
   const [errors, setErrors] = useState({});
+  const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
     const fetchAgent = async () => {
       try {
         setLoading(true);
         const agent = await getAgentById(id);
-        console.log("this is agent data", agent)
+        const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
+        const profileUrl = agent.user?.profile_picture
+          ? `${IMG_BASE_URL}${agent.user.profile_picture}`
+          : "";
+          
         setPayload({
           ...agent,
           country: agent.countryDetails?.id,
           province: agent.provinceDetails?.id,
           district: agent.districtDetails?.id,
-          status: agent.user?.status,
-          profile_picture: agent.user?.profile_picture,
+          commission_rate: agent.commission_rate || 0,
+          user: {
+            username: agent.user?.username || "",
+            email: agent.user?.email || "",
+            mobileNumber: agent.user?.mobileNumber || "",
+            status: agent.user?.status || "",
+            profile_picture: profileUrl,
+          }
         });
+        setPreviewUrl(profileUrl);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching agent:", error);
@@ -124,9 +137,9 @@ export default function EditAgent() {
 
   const validate = () => {
     const newErrors = {};
-    if (!payload.username) newErrors.username = "Agent name is required.";
-    if (!payload.email) newErrors.email = "Email is required.";
-    if (!payload.mobileNumber)
+    if (!payload.user.username) newErrors.username = "Agent name is required.";
+    if (!payload.user.email) newErrors.email = "Email is required.";
+    if (!payload.user.mobileNumber)
       newErrors.mobileNumber = "Phone number is required.";
     if (!payload.country) newErrors.country = "Country is required.";
     if (!payload.province) newErrors.province = "Province is required.";
@@ -134,22 +147,48 @@ export default function EditAgent() {
     if (!payload.address) newErrors.address = "Address is required.";
     if (!payload.messageLanguage)
       newErrors.messageLanguage = "Language is required.";
-    if (!payload.status) newErrors.status = "Status is required.";
+    if (!payload.user.status) newErrors.status = "Status is required.";
+    
+    // Commission rate validation
+    if (payload.commission_rate === null || payload.commission_rate === undefined) {
+      newErrors.commission_rate = "Commission rate is required.";
+    } else if (isNaN(payload.commission_rate)) {
+      newErrors.commission_rate = "Must be a number";
+    } else if (payload.commission_rate < 0) {
+      newErrors.commission_rate = "Cannot be negative";
+    } else if (payload.commission_rate > 100) {
+      newErrors.commission_rate = "Cannot exceed 100%";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handlePayloadChange = (field, value) => {
-    setPayload((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: null }));
+    // Handle nested user fields
+    if (field.startsWith('user.')) {
+      const userField = field.split('.')[1];
+      setPayload(prev => ({
+        ...prev,
+        user: {
+          ...prev.user,
+          [userField]: value
+        }
+      }));
+    } else {
+      setPayload(prev => ({ ...prev, [field]: value }));
+    }
+    setErrors(prev => ({ ...prev, [field.split('.')[1] || field]: null }));
   };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () =>
-        handlePayloadChange("profile_picture", reader.result);
+      reader.onload = () => {
+        setPreviewUrl(reader.result);
+        handlePayloadChange("user.profile_picture", reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -159,9 +198,16 @@ export default function EditAgent() {
 
     try {
       setUpdating(true);
-      await updateAgentDetails(id, payload);
+      
+      // Prepare payload with proper structure
+      const updatePayload = {
+        ...payload,
+        commission_rate: payload.commission_rate
+      };
+      
+      await updateAgentDetails(id, updatePayload);
       toast.success("Agent updated successfully");
-      navigate("/manage-agents");
+      navigate("/manage-agent");
     } catch (error) {
       console.error("Update error:", error);
       toast.error(error.response?.data?.error || "Failed to update agent");
@@ -177,17 +223,27 @@ export default function EditAgent() {
       </div>
     );
   }
-const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
+
   return (
     <StyledContainer>
       <h2 className="text-2xl font-bold mb-6">Edit Agent</h2>
       <div className="flex justify-center">
         <div className="relative w-[120px] h-[120px] rounded-full border border-red-500 mb-4">
-          <img
-             src={`${IMG_BASE_URL}${payload?.user?.profile_picture}`}
-            alt="profile"
-            className="w-full h-full rounded-full object-cover"
-          />
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt="profile"
+              className="w-full h-full rounded-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/default-avatar.png";
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center">
+              <Camera size={24} className="text-gray-500" />
+            </div>
+          )}
           <div
             onClick={() => fileRef.current?.click()}
             className="absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer shadow"
@@ -206,8 +262,8 @@ const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
       <div className="w-full grid grid-cols-12 gap-3">
         <div className="col-span-12 md:col-span-6">
           <TextField
-            value={payload.user?.username}
-            onChange={(e) => handlePayloadChange("username", e.target.value)}
+            value={payload.user.username}
+            onChange={(e) => handlePayloadChange("user.username", e.target.value)}
             sx={redFocusStyles}
             variant="outlined"
             label="Agent Name"
@@ -217,8 +273,8 @@ const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
         </div>
         <div className="col-span-12 md:col-span-6">
           <TextField
-            value={payload.user?.email}
-            onChange={(e) => handlePayloadChange("email", e.target.value)}
+            value={payload.user.email}
+            onChange={(e) => handlePayloadChange("user.email", e.target.value)}
             sx={redFocusStyles}
             variant="outlined"
             label="Email"
@@ -228,12 +284,12 @@ const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
         </div>
         <div className="col-span-12 md:col-span-6">
           <TextField
-            value={payload.user?.mobileNumber}
-            onChange={(e) => handlePayloadChange("mobileNumber", e.target.value)}
+            value={payload.user.mobileNumber}
+            onChange={(e) => handlePayloadChange("user.mobileNumber", e.target.value)}
             sx={redFocusStyles}
             variant="outlined"
             label="Phone Number"
-            type="number"
+            type="tel"
             error={!!errors.mobileNumber}
             helperText={errors.mobileNumber}
           />
@@ -338,10 +394,10 @@ const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
                 sx={{ display: "flex", alignItems: "center", gap: 1 }}
                 {...props}
               >
-                <Avatar
+                <img
                   src={option?.icon}
                   alt={option?.label}
-                  sx={{ width: 20, height: 20 }}
+                  className="w-5 h-5 rounded-full"
                 />
                 {option?.label}
               </Box>
@@ -359,12 +415,25 @@ const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL;
           />
         </div>
         <div className="col-span-12 md:col-span-6">
+          <TextField
+            value={payload.commission_rate}
+            onChange={(e) => handlePayloadChange("commission_rate", Number(e.target.value)) }
+            sx={redFocusStyles}
+            variant="outlined"
+            label="Commission Rate (%)"
+            type="number"
+            inputProps={{ min: 0, max: 100, step: 0.1 }}
+            error={!!errors.commission_rate}
+            helperText={errors.commission_rate}
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
           <Autocomplete
             options={statuses || []}
             getOptionLabel={(u) => u?.label}
-            value={statuses.find(s => s.value === payload.status) || null}
+            value={statuses.find(s => s.value === payload.user.status) || null}
             onChange={(e, newValue) =>
-              handlePayloadChange("status", newValue?.value)
+              handlePayloadChange("user.status", newValue?.value)
             }
             renderInput={(params) => (
               <TextField

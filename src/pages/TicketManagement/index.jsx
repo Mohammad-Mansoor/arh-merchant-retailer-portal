@@ -231,10 +231,7 @@ export default function MerchantTicketsPage() {
             />
             <Search size={18} className="absolute top-[12px] left-[8px] text-gray-500 dark:text-gray-300" />
           </div>
-        </div>
-        
-        <div className="w-full md:w-[30%] flex items-center justify-end gap-3">
-          <button
+            <button
             onClick={() => setIsDatePickerOpen(true)}
             className="max-w-[250px] cursor-pointer w-full md:w-auto border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 h-[44px] flex items-center justify-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 relative"
           >
@@ -270,6 +267,10 @@ export default function MerchantTicketsPage() {
               </span>
             )}
           </button>
+        </div>
+        
+        <div className="w-full md:w-[30%] flex items-center justify-end gap-3">
+        
           
           <button
             onClick={() => setIsCreateModalOpen(true)}

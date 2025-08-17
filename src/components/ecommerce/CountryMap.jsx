@@ -26,6 +26,16 @@ const CountryMap = ({ mapColor }) => {
           },
         },
         {
+  latLng: [33.93911, 67.709953],
+  name: "Afghanistan",
+  style: {
+    fill: "#CD0202",
+    borderWidth: 1,
+    borderColor: "white",
+    stroke: "#383f47",
+  },
+},
+        {
           latLng: [20.7504374, 73.7276105],
           name: "India",
           style: { fill: "#465FFF", borderWidth: 1, borderColor: "white" },

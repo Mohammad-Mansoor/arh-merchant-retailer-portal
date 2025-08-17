@@ -1,9 +1,8 @@
-// ActivateProductModal.tsx
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-// Custom styled Dialog with blur
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
     backdropFilter: "blur(6px)",
@@ -12,7 +11,6 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
     border: `1px solid ${theme.palette.mode === "dark" ? "#444" : "#d32f2f"}`,
     borderRadius: 12,
-    // padding: theme.spacing(2),
     backgroundColor:
       theme.palette.mode === "dark"
         ? "#111827"
@@ -21,32 +19,35 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function SuccessModal({ open, onClose, payload }) {
-    const [stars] = useState(Array(15).fill(0));
-    const [visible, setVisible] = useState(false);
+  const { t } = useTranslation();
+  const [stars] = useState(Array(15).fill(0));
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
-      let timer;
-      if (open) {
-        setTimeout(() => setVisible(true), 100);
-        
-        timer = setTimeout(() => {
-          onClose();
-        }, 15000); 
-      } else {
-        setVisible(false);
-      }
+    let timer;
+    if (open) {
+      setTimeout(() => setVisible(true), 100);
       
-      return () => clearTimeout(timer);
-    }, [open, onClose]);
+      timer = setTimeout(() => {
+        onClose();
+      }, 15000); 
+    } else {
+      setVisible(false);
+    }
+    
+    return () => clearTimeout(timer);
+  }, [open, onClose]);
+
   return (
     <StyledDialog open={open} onClose={onClose}>
-      <div className=" w-full p-4 text-center bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
+      <div className="w-full p-4 text-center bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
         <div className="w-full px-6 pt-6 flex items-center justify-center relative z-10">
-
           <div className="success-animation">
             <svg 
               className="checkmark" 
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 52 52"
+              aria-label={t("successModal.successIcon")}
             >
               <circle 
                 className="checkmark__circle" 
@@ -62,52 +63,45 @@ export default function SuccessModal({ open, onClose, payload }) {
               />
             </svg>
             
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
-            <div className="confetti"></div>
+            {stars.map((_, i) => (
+              <div key={i} className="confetti"></div>
+            ))}
           </div>
         </div>
 
         <div className="flex items-center justify-center mt-10">
-          <h1
-            className="text-[24px] dark:text-white
-          "
-          >
-            Stock Transfered Successfully
+          <h1 className="text-[24px] dark:text-white">
+            {t("successModal1.title")}
           </h1>
         </div>
+
         <div className="flex items-center justify-center px-1 flex-col gap-1 py-1 mt-4 w-full rounded-md dark:text-white bg-[#F3F4F6] bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
           <div className="w-full p-3">
             <div className="flex items-center justify-between">
-              <h3>Amount</h3>
+              <h3>{t("successModal1.amount")}</h3>
               <h3>{payload?.amount}</h3>
             </div>
             <div className="flex items-center justify-between">
-              <h3>Commission Rate</h3>
+              <h3>{t("successModal1.commissionRate")}</h3>
               <h3>{payload.comission_rate + " %"}</h3>
             </div>
             <div className="flex items-center justify-between">
-              <h3>Total Amount</h3>
-              <h3>{`${payload?.total_amount} AFG`}</h3>
+              <h3>{t("successModal1.totalAmount")}</h3>
+              <h3>{`${payload?.total_amount} ${t("common3.currency")}`}</h3>
             </div>
             <div className="flex items-center justify-between">
-              <h3>Date</h3>
+              <h3>{t("successModal1.date")}</h3>
               <h3>{new Date().toLocaleDateString()}</h3>
             </div>
           </div>
         </div>
+
         <div className="w-full flex items-center justify-center">
           <button
             onClick={onClose}
-            className="w-full flex items-center justify-center text-white py-2 px-4 rounded-md mt-3 bg-[#CD0C02]"
+            className="w-full flex items-center justify-center text-white py-2 px-4 rounded-md mt-3 bg-[#CD0C02] hover:bg-[#a80101] transition-colors"
           >
-            Go Back
+            {t("successModal1.goBack")}
           </button>
         </div>
       </div>
