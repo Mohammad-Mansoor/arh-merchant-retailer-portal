@@ -4,6 +4,7 @@ import svgr from "vite-plugin-svgr";
 import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
+  base: '/merchant/',
   plugins: [
     react(),
     svgr({
@@ -11,31 +12,24 @@ export default defineConfig({
       svgrOptions: { icon: true },
     }),
     visualizer({
-      open: true,   
+      open: true,
       template: 'treemap',
-      filename: "stats.html", // optional file name
+      filename: "stats.html",
       gzipSize: true,
       brotliSize: true,
     }),
-
-    // Optional: See what's in your bundle
   ],
-
-  // ⚡ Improves reload speed by caching node_modules parsing
-  // optimizeDeps: {
-  //    include: ["react", "react-dom", "exceljs", "fullcalendar", "react-dnd"],
-  // },
-
-  // 🚀 Remove sourcemaps in dev for smaller transfers
-  // esbuild: {
-  //   sourcemap: false,
-  // },
-
- 
-
-  // server: {
-  //   open: true,
-  //   // Optional: enable compression so browser downloads less data in dev
-  //   middlewareMode: false,
-  // },
+  build: {
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    sourcemap: false,
+    chunkSizeWarningLimit: 1000,
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "exceljs", "fullcalendar", "react-dnd"],
+  },
+  server: {
+    open: true,
+    middlewareMode: false,
+  },
 });

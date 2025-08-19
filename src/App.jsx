@@ -32,7 +32,7 @@ import EditAgent from "./pages/agentManagement/manageAgent/components/EditAgent"
 export default function App() {
   return (
     <>
-      <Router>
+      <Router basename="/merchant">
         <ScrollToTop />
         <Routes>
           <Route element={<PrivateRoute />}>
