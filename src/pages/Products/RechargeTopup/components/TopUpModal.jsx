@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { recharge } from "../../../../services/product_management_service.js";
 import { toast } from "react-toastify";
 
-// Custom styled Dialog with blur
+
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   width: "100%",
   "& .MuiBackdrop-root": {
@@ -17,7 +17,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   "& .MuiPaper-root": {
-    width: "30%",
+    width: "500px",
     border: `1px solid ${theme.palette.mode === "dark" ? "#444" : "#d32f2f"}`,
     borderRadius: 12,
     padding: theme.spacing(2),

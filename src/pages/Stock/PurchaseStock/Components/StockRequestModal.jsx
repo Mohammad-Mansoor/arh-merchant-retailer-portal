@@ -100,12 +100,9 @@ const validateForm = () => {
   };
 const handleSubmit = async (e) => {
   e.preventDefault();
-  
- 
   setIsSuccess(false);
   setIsError(false);
   setErrorMessage("");
-
 
   if (!validateForm()) {
     return; 

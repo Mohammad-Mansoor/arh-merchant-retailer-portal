@@ -21,6 +21,8 @@ import {
 } from "../../../services/product_management_service.js";
 import { getCoutries } from "../../../services/public_service.js";
 import { Autocomplete, TextField } from "@mui/material";
+import redFocusStyles from "../../../components/ui/formUI/RedFocusedStyleV2.jsx";
+
 
 const IMG_BASE_URL = import.meta.env.VITE_IMG_BASE_URL1;
 
@@ -78,8 +80,8 @@ useQuery({
         getProductTypes(),
       ]);
 
-      console.log("Countries response:", countries); // Add this
-      console.log("Countries data structure:", countries?.data); // Add this
+      console.log("Countries response:", countries); 
+      console.log("Countries data structure:", countries?.data); 
 
       setFilterOptions({
         countries: countries?.data || [],
@@ -300,7 +302,7 @@ const darkDropdownStyles = {
           
           <div className="grid grid-cols-1 gap-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Country Filter - Beautiful Autocomplete */}
+  
               <div>
                 <label className="block text-sm font-medium mb-2 dark:text-gray-300">
                   Country
@@ -312,12 +314,14 @@ const darkDropdownStyles = {
                   onChange={(event, newValue) => 
                     handleFilterChange("countryId", newValue?.id || "")
                   }
+                
                   renderInput={(params) => (
                     <TextField 
                       {...params} 
                       placeholder="Select country"
                       variant="outlined"
-                      sx={document.documentElement.classList.contains('dark') ? darkDropdownStyles : dropdownStyles}
+                      sx={redFocusStyles}
+                      // sx={document.documentElement.classList.contains('dark') ? darkDropdownStyles : dropdownStyles}
                     />
                   )}
                   renderOption={(props, option) => (
@@ -347,7 +351,7 @@ const darkDropdownStyles = {
                       {...params} 
                       placeholder="Select provider"
                       variant="outlined"
-                      sx={document.documentElement.classList.contains('dark') ? darkDropdownStyles : dropdownStyles}
+                      sx={redFocusStyles}
                     />
                   )}
                   renderOption={(props, option) => (
@@ -377,7 +381,7 @@ const darkDropdownStyles = {
                       {...params} 
                       placeholder="Select type"
                       variant="outlined"
-                      sx={document.documentElement.classList.contains('dark') ? darkDropdownStyles : dropdownStyles}
+                      sx={redFocusStyles}
                     />
                   )}
                   renderOption={(props, option) => (
@@ -390,7 +394,7 @@ const darkDropdownStyles = {
                 />
               </div>
               
-              {/* Status Filter - Beautiful Autocomplete */}
+            
               <div>
                 <label className="block text-sm font-medium mb-2 dark:text-gray-300">
                   Status
@@ -414,7 +418,7 @@ const darkDropdownStyles = {
                       {...params} 
                       placeholder="Select status"
                       variant="outlined"
-                      sx={document.documentElement.classList.contains('dark') ? darkDropdownStyles : dropdownStyles}
+                      sx={redFocusStyles}
                     />
                   )}
                   renderOption={(props, option) => (

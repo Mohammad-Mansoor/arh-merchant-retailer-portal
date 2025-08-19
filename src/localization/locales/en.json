@@ -16,7 +16,8 @@
     "Recharge": "Recharge/Topup",
     "UserProfile": "User Profile",
     "ContactUs": "Contact Us",
-    "Tutorial": "Tutorial"
+    "Tutorial": "Tutorial",
+    "Support": "Support"
   },
     "agentManagement": {
     "searchPlaceholder": "Search by name, email, phone...",
@@ -277,5 +278,45 @@
   "retry": "Retry",
   "goBack": "Go Back",
   "errorIconAlt": "Error illustration"
-}
+},
+ "ecommerceMetrics": {
+    "mainWallet": "Main Wallet Balance",
+    "commissionWallet": "Commission Wallet Balance",
+    "totalRetailers": "Total Retailers",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+    "stockTransferChart": {
+    "title": "Stock Transfer Statistics",
+    "subtitle": "Stock transfer targets for each {period}",
+    "monthly": "Monthly",
+    "weekly": "Weekly",
+    "month": "month",
+    "week": "week",
+    "noData": "No transfer data available",
+    "loading": "Loading transfer data...",
+    "error": "Error loading transfer data",
+    "series": {
+      "sales": "Sales (Transfer)",
+      "volume": "Volume (Transfer)"
+    }
+  },
+  "purchaseChart": {
+    "title": "Purchase Stock Statistics",
+    "subtitle": "Purchase stock targets for each {period}",
+    "monthly": "Monthly",
+    "weekly": "Weekly",
+    "month": "month",
+    "week": "week",
+    "noData": "No purchase data available",
+    "loading": "Loading purchase data...",
+    "error": "Error loading purchase data",
+    "series": {
+      "sales": "Sales (Purchase)",
+      "volume": "Volume (Purchase)"
+    }
+  }
+
+
+
 }

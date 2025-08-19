@@ -43,7 +43,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
 const countries = [
   { code: "AF", name: "AFG", dialCode: "+93", flag: "🇦🇫" },
-  // Add more if needed
+ 
 ];
 
 export default function ConfirmProductModal({ open, onClose, product, phone }) {
@@ -113,21 +113,12 @@ export default function ConfirmProductModal({ open, onClose, product, phone }) {
           </div>
         </div>
       </ErrorModal>
-      <div className="w-full">
-        <DialogTitle
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            margin: 0,
-          }}
-        >
-          <Typography variant="h6">Activate product</Typography>
+      <div className=" w-[450px] p-3">
+        
+          <Typography sx={{mb: 2, }} variant="h6">Activate product</Typography>
 
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
+       
+      
         <Box className="w-full flex items-center justify-start mb-3">
           <Typography variant="p">
             Are you sure you want to activate this bundle?
@@ -148,19 +139,19 @@ export default function ConfirmProductModal({ open, onClose, product, phone }) {
           </div>
         </div>
 
-        <DialogActions sx={{ justifyContent: "justify-start", px: 3 }}>
-          <Button onClick={onClose} variant="outlined" color="inherit">
+        <div className="flex items-center  justify-between mt-4">
+          <Button onClick={onClose} variant="outlined" sx={{width: "20%",}} color="inherit">
             Close
           </Button>
           <Button
             disabled={loading}
             onClick={productActivation}
             variant="contained"
-            sx={{ bgcolor: "#d32f2f", width: "300px " }}
+            sx={{ bgcolor: "#d32f2f", width: "77%" }}
           >
             {loading ? "Activating..." : "Continue"}
           </Button>
-        </DialogActions>
+      </div>
       </div>
     </StyledDialog>
   );

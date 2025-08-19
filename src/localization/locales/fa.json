@@ -16,7 +16,8 @@
     "Recharge": "شارژ/تاپ آپ",
     "UserProfile": "پروفایل کاربر",
     "ContactUs": "تماس با ما",
-    "Tutorial": "آموزش"
+    "Tutorial": "آموزش",
+    "Support": "پشتیبانی و خدمات"
   },
   "agentManagement": {
     "searchPlaceholder": "جستجو با نام، ایمیل، تلفن...",
@@ -277,6 +278,44 @@
   "retry": "دوباره تلاش کنید",
   "goBack": "بازگشت",
   "errorIconAlt": "تصویر خطا"
-}
+},
+
+  "ecommerceMetrics": {
+    "mainWallet": "موجودی کیف پول اصلی",
+    "commissionWallet": "موجودی کیف پول کمیسیون",
+    "totalRetailers": "مجموع فروشندگان",
+    "active": "فعال",
+    "inactive": "غیرفعال"
+  },
+  "stockTransferChart": {
+    "title": "آمار انتقالات سهام",
+    "subtitle": "اهداف انتقال سهام برای هر {period}",
+    "monthly": "ماهیانه",
+    "weekly": "هفتگی",
+    "month": "ماه",
+    "week": "هفته",
+    "noData": "داده‌ای برای انتقال موجود نیست",
+    "loading": "در حال بارگیری داده‌های انتقال...",
+    "error": "خطا در بارگیری داده‌های انتقال",
+    "series": {
+      "sales": "فروش (انتقال)",
+      "volume": "حجم (انتقال)"
+    }
+  },
+   "purchaseChart": {
+    "title": "آمار خرید سهام",
+    "subtitle": "اهداف خرید سهام برای هر {period}",
+    "monthly": "ماهیانه",
+    "weekly": "هفتگی",
+    "month": "ماه",
+    "week": "هفته",
+    "noData": "داده‌ای برای خرید موجود نیست",
+    "loading": "در حال بارگیری داده‌های خرید...",
+    "error": "خطا در بارگیری داده‌های خرید",
+    "series": {
+      "sales": "فروش (خرید)",
+      "volume": "حجم (خرید)"
+    }
+  }
 
 }

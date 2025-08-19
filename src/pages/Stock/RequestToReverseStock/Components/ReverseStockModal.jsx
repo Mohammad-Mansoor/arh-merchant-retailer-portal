@@ -153,7 +153,9 @@ export default function ReverseStockModal({
               variant="outlined"
             >
               {retailers.map(retailer => (
-                <MenuItem key={retailer.id} value={retailer.id}>
+                <MenuItem key={retailer.
+user_id} value={retailer.
+user_id}>
                   {retailer?.user?.username} 
                 </MenuItem>
               ))}

@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 import { createDownlineAgent } from "../../../../services/agent_management_service.js";
 import CreateAgentErrorModal from "./ErrorModal.jsx";
 import CreateAgentSuccessModal from "./SuccessModal.jsx";
+import redFocusStyles from "../../../../components/ui/formUI/RedFocusedStyleV2.jsx";
+
 
 const languages = [
   { label: "English", value: "english", icon: "https://flagcdn.com/us.svg" },
@@ -49,23 +51,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const redFocusStyles = {
-  width: "100%",
-  borderRadius: "20px",
-  "& .MuiOutlinedInput-root": {
-    paddingY: "0 !important",
-    height: "46px",
-    "& .MuiAutocomplete-input": { padding: "0 !important" },
-    "&.Mui-focused fieldset": { borderColor: "#CD0C02 !important" },
-    "&:hover fieldset": { borderColor: "#ff6666" },
-  },
-  "& .MuiInputLabel-root.Mui-focused": { color: "#CD0C02 !important" },
-  "& .MuiAutocomplete-popupIndicator.Mui-focused": { color: "#CD0C02" },
-  "& .MuiAutocomplete-inputRoot": {
-    paddingTop: "0 !important",
-    paddingBottom: "0 !important",
-  },
-};
+
 
 export default function CreateAgent({ open, onClose }) {
   const userinfo = useSelector((state) => state.auth.user);

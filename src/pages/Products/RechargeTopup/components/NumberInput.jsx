@@ -12,17 +12,17 @@ import { styled } from "@mui/material/styles";
 const operators = [
   {
     name: "Etisalat",
-    prefix: ["780", "781"],
+    prefix: ["78", "73"],
     logo: "/images/mnos/etisalat.jpeg",
   },
   {
     name: "AWCC",
-    prefix: ["700", "701"],
+    prefix: ["700", "71"],
     logo: "/images/mnos/awcc.jpeg",
   },
   {
     name: "roshan",
-    prefix: ["79", "70"],
+    prefix: ["79", "72"],
     logo: "/images/mnos/roshan.jpeg",
   },
   {
@@ -32,17 +32,17 @@ const operators = [
   },
   {
     name: "salaam",
-    prefix: ["74", "76"],
-    logo: "/images/mnos/salaam.jpeg",
+    prefix: ["74"],
+    logo: "/images/mnos/salaam.png",
   },
 ];
 
 const prefixMap = {
-  automa: ["79"], // example prefix
+  automa: ["77", "76"], 
   etisalat: ["78", "73"],
-  roshan: ["72", "77"],
+  roshan: ["72", "79"],
   salaam: ["74"],
-  awcc: ["71", "75"],
+  awcc: ["70", "71"],
 };
 
 const countries = [
@@ -92,7 +92,9 @@ const PhoneInput = ({ getInputValue }) => {
       setError("Phone number cannot exceed 9 digits.");
       return false;
     }
-
+    if (digitsOnly.length > 0 && digitsOnly[0] !== '7') {
+      return '';
+    }
     if (digitsOnly.length > 0 && digitsOnly[0] === "0") {
       setError("First digit cannot be 0.");
       return false;

@@ -15,6 +15,8 @@ import ARHCustomDataTable from "../../../components/dataTable/ARHCustomDataTable
 import ARHAdvanceFilterModal from "../../../components/application/date-picker/FilterModal";
 import { ARHCustomDateFiler } from "../../../components/application/date-picker/rangeCallernderCard";
 import { getDownlineAgents } from "../../../services/agent_management_service";
+import ReverseStockErrorModal from "./Components/ReverseStockErrorModal";
+import ReverseStockSuccessModal from "./Components/ReverseStockSuccessModal";
 
 const StatusBadge = ({ status }) => {
   const { t } = useTranslation();
@@ -51,7 +53,10 @@ function ReverseStockPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isAdvanceFilterOpen, setIsAdvanceFilterOpen] = useState(false);
-  
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+const [errorModalOpen, setErrorModalOpen] = useState(false);
+const [modalPayload, setModalPayload] = useState(null);
+const [errorMessage, setErrorMessage] = useState('');
   const [filter, setFilter] = useState({
     page: 1,
     limit: 10,
@@ -72,7 +77,7 @@ function ReverseStockPage() {
     queryKey: ["downlineAgents", userInfo?.id, filter],
     queryFn: () => getDownlineAgents(userInfo?.id, filter),
   });
-
+ console.log(retailersData, "this is downline")
   const retailers = retailersData?.data || [];
 
   const handleSearchChange = (value) => {
@@ -213,10 +218,11 @@ function ReverseStockPage() {
     {
       key: "reversedFrom",
       label: t('reverseStock.columns.retailer'),
-      render: (item) => {
-        const retailer = retailers.find(r => r.id === item.reversedFrom);
-        return retailer ? `${retailer.username}` : "N/A";
-      }
+      // render: (item) => {
+      //   const retailer = retailers.find(r => r.id === item.source);
+      //   return retailer ? `${retailer.username}` : "N/A";
+      // }
+        render: (item) => (item?.source?.username)
     },
     {
       key: "amount",
@@ -263,10 +269,24 @@ function ReverseStockPage() {
           onSubmit={(formData) => {
             formData.append("type", "downline");
             createReverseStockByMerchant(formData)
-              .then(() => {
-                refetch();
-                setIsModalOpen(false);
-              });
+  .then((response) => {
+    setModalPayload({
+      ...formData,
+      reversedFrom: retailers.find(r => r.id === formData.reversedFrom)
+    });
+    setSuccessModalOpen(true);
+    refetch();
+  })
+  .catch((error) => {
+    setErrorMessage(error.message || "Failed to submit reverse stock request");
+    setModalPayload({
+      reversedFrom: retailers.find(r => r.id === formData.reversedFrom),
+      amount: formData.get("amount"),
+      comment: formData.get("comment")
+    });
+    setErrorModalOpen(true);
+  })
+  .finally(() => setIsModalOpen(false));
           }}
           isLoading={false}
           retailers={retailers}
@@ -417,7 +437,24 @@ function ReverseStockPage() {
           </div>
         </div>
       )}
-      
+      <ReverseStockSuccessModal
+  open={successModalOpen}
+  onClose={() => setSuccessModalOpen(false)}
+  payload={modalPayload}
+/>
+
+<ReverseStockErrorModal
+  open={errorModalOpen}
+  onClose={() => setErrorModalOpen(false)}
+  onRetry={() => {
+    // Retry logic here
+    setErrorModalOpen(false);
+    setIsModalOpen(true);
+  }}
+  title="Reverse Stock Request Failed"
+  error={errorMessage}
+  payload={modalPayload}
+/>
       {isAdvanceFilterOpen && (
         <ARHAdvanceFilterModal
           isOpen={isAdvanceFilterOpen}

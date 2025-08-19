@@ -2,20 +2,31 @@ import Chart from "react-apexcharts";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import { getPurchaseRequests } from "../../services/saleRequest";
+import { useTranslation } from "react-i18next";
 
-
-function transformPurchaseData(purchases, range) {
+function transformPurchaseData(purchases, range, locale) {
   const isMonthly = range === "monthly";
+  const monthTranslations = {
+    en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    prs: ["جنوری", "فبروری", "مارچ", "اپریل", "می", "جون", "جولای", "اگست", "سپتمبر", "اکتوبر", "نومبر", "دسمبر"],
+    ps: ["جنوري", "فبروري", "مارچ", "اپریل", "می", "جون", "جولای", "اګست", "سپتمبر", "اکتوبر", "نومبر", "دسمبر"]
+  };
+
   const categories = isMonthly 
-    ? ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    ? monthTranslations[locale] || monthTranslations.en
     : Array.from({ length: 7 }, (_, i) => {
         const d = new Date();
         d.setDate(d.getDate() - (6 - i));
+        if (locale === 'prs') {
+          return d.toLocaleDateString("fa-IR", { weekday: "short" });
+        } else if (locale === 'ps') {
+          const pashtoDays = ["يونۍ", "دونۍ", "درېنۍ", "څلرنۍ", "پينځنۍ", "جمعه", "اونۍ"];
+          return pashtoDays[d.getDay()];
+        }
         return d.toLocaleDateString("en-US", { weekday: "short" });
       });
 
   const totals = categories.map(() => ({ amount: 0, count: 0 }));
-
 
   const transferPurchases = purchases.filter(purchase => 
     purchase.status?.toLowerCase() === "transfer"
@@ -57,6 +68,7 @@ function transformPurchaseData(purchases, range) {
 }
 
 export default function CombinedStatisticsChart() {
+  const { t, i18n } = useTranslation();
   const [timeRange, setTimeRange] = useState("monthly");
   
   const getDateRangeStart = (range) => {
@@ -74,22 +86,32 @@ export default function CombinedStatisticsChart() {
   };
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["purchaseRequests", timeRange],
+    queryKey: ["purchaseRequests", timeRange, i18n.language],
     queryFn: () => getPurchaseRequests({
       'createdAt[gte]': getDateRangeStart(timeRange),
       'createdAt[lte]': new Date().toISOString()
     }),
     select: (response) => {
       try {
-        return transformPurchaseData(response?.data || [], timeRange);
+        return transformPurchaseData(response?.data || [], timeRange, i18n.language);
       } catch (e) {
         console.error("Data transformation error:", e);
         return {
           categories: timeRange === "monthly" 
-            ? ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            ? (i18n.language === 'prs' 
+                ? ["جنوری", "فبروری", "مارچ", "اپریل", "می", "جون", "جولای", "اگست", "سپتمبر", "اکتوبر", "نومبر", "دسمبر"]
+                : i18n.language === 'ps'
+                ? ["جنوري", "فبروري", "مارچ", "اپریل", "می", "جون", "جولای", "اګست", "سپتمبر", "اکتوبر", "نومبر", "دسمبر"]
+                : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
             : Array.from({ length: 7 }, (_, i) => {
                 const d = new Date();
                 d.setDate(d.getDate() - (6 - i));
+                if (i18n.language === 'prs') {
+                  return d.toLocaleDateString("fa-IR", { weekday: "short" });
+                } else if (i18n.language === 'ps') {
+                  const pashtoDays = ["يونۍ", "دونۍ", "درېنۍ", "څلرنۍ", "پينځنۍ", "جمعه", "اونۍ"];
+                  return pashtoDays[d.getDay()];
+                }
                 return d.toLocaleDateString("en-US", { weekday: "short" });
               }),
           sales: Array(timeRange === "monthly" ? 12 : 7).fill(0),
@@ -105,7 +127,9 @@ export default function CombinedStatisticsChart() {
     legend: { show: false },
     colors: ["#CD0202", "#FBBF24"],
     chart: {
-      fontFamily: "Outfit, sans-serif",
+      fontFamily: i18n.language === 'prs' ? "Tahoma, sans-serif" : 
+                 i18n.language === 'ps' ? "Tahoma, sans-serif" : 
+                 "Outfit, sans-serif",
       height: 310,
       type: "line",
       toolbar: { show: false },
@@ -126,7 +150,7 @@ export default function CombinedStatisticsChart() {
       enabled: true,
       x: { format: "dd MMM yyyy" },
       y: {
-        formatter: (value) => `${value.toLocaleString()}`
+        formatter: (value) => `${value.toLocaleString(i18n.language === 'prs' ? 'fa-IR' : i18n.language === 'ps' ? 'ps-AF' : 'en-US')}`
       }
     },
     xaxis: {
@@ -139,42 +163,44 @@ export default function CombinedStatisticsChart() {
     yaxis: {
       labels: {
         style: { fontSize: "12px", colors: ["#6B7280"] },
-        formatter: (value) => value.toLocaleString()
+        formatter: (value) => value.toLocaleString(i18n.language === 'prs' ? 'fa-IR' : i18n.language === 'ps' ? 'ps-AF' : 'en-US')
       },
       title: { text: "", style: { fontSize: "0px" } }
     },
     noData: {
-      text: "No transfer data available",
+      text: t("purchaseChart.noData"),
       align: 'center',
       verticalAlign: 'middle',
       style: {
         color: "#6B7280",
         fontSize: '14px',
-        fontFamily: "Outfit, sans-serif"
+        fontFamily: i18n.language === 'prs' ? "Tahoma, sans-serif" : 
+                   i18n.language === 'ps' ? "Tahoma, sans-serif" : 
+                   "Outfit, sans-serif"
       }
     }
-  }), [data]);
+  }), [data, i18n.language, t]);
 
   const chartSeries = useMemo(() => [
     { 
-      name: "Sales (Transfer)", 
+      name: t("purchaseChart.series.sales"), 
       data: data?.sales || Array(timeRange === "monthly" ? 12 : 7).fill(0) 
     },
     { 
-      name: "Volume (Transfer)", 
+      name: t("purchaseChart.series.volume"), 
       data: data?.volume || Array(timeRange === "monthly" ? 12 : 7).fill(0) 
     }
-  ], [data, timeRange]);
+  ], [data, timeRange, t]);
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white px-5 pb-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
       <div className="flex flex-col gap-5 mb-6 sm:flex-row sm:justify-between">
         <div className="w-full">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Purchase Stock Statistics
+            {t("purchaseChart.title")}
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Purchase Stock targets for each {timeRange === "monthly" ? "month" : "week"}
+            {t("purchaseChart.subtitle", { period: timeRange === "monthly" ? t("purchaseChart.month") : t("purchaseChart.week") })}
           </p>
         </div>
         <div className="flex items-start w-full gap-3 sm:justify-end">
@@ -187,7 +213,7 @@ export default function CombinedStatisticsChart() {
                   : "text-gray-500"
               }`}
             >
-              Monthly
+              {t("purchaseChart.monthly")}
             </button>
             <button
               onClick={() => setTimeRange("daily")}
@@ -197,7 +223,7 @@ export default function CombinedStatisticsChart() {
                   : "text-gray-500"
               }`}
             >
-              Weekly
+              {t("purchaseChart.weekly")}
             </button>
           </div>
         </div>
@@ -205,11 +231,11 @@ export default function CombinedStatisticsChart() {
 
       {isLoading ? (
         <div className="h-[310px] flex items-center justify-center">
-          <div className="animate-pulse text-gray-500">Loading transfer data...</div>
+          <div className="animate-pulse text-gray-500">{t("purchaseChart.loading")}</div>
         </div>
       ) : isError ? (
         <div className="h-[310px] flex flex-col items-center justify-center text-red-500 gap-2">
-          <div>Error loading transfer data</div>
+          <div>{t("purchaseChart.error")}</div>
           {error && <div className="text-xs text-gray-500">{error.message}</div>}
         </div>
       ) : (

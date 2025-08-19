@@ -5,6 +5,42 @@ layer(base);
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "IRANYekan";
+  src: url("/fonts/Qs_Iranyekan black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANYekan";
+  src: url("/fonts/Qs_Iranyekan bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IRANYekan";
+  src: url("/fonts/Qs_Iranyekan extrabold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANYekan";
+  src: url("/fonts/Qs_Iranyekan light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANYekan";
+  src: url("/fonts/Qs_Iranyekan medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+[dir="rtl"] body {
+  font-family: "IRANYekan", sans-serif;
+}
 @theme {
   --font-*: initial;
   --font-outfit: Outfit, sans-serif;

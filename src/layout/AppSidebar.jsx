@@ -196,14 +196,14 @@ const renderMenuItems = (items, menuType) => (
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <img
-                className="dark:hidden w-auto h-[50px]"
+                className="dark:hidden w-auto h-[40px]"
                 src="/images/afh-logo.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <img
-                className="hidden dark:block w-auto h-[50px]"
+                className="hidden dark:block w-auto h-[40px]"
                 src="/images/afh-logo.png"
                 alt="Logo"
                 width={150}

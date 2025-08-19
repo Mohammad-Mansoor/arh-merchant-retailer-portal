@@ -70,11 +70,11 @@ export const navItems = [
       },
     ],
   },
-   {
-    icon: <Ticket />,
-    name: "TicketManagement",
-    path: "/ticket-management",
-  },
+  //  {
+  //   icon: <Ticket />,
+  //   name: "TicketManagement",
+  //   path: "/ticket-management",
+  // },
     {
     icon: <FileBarChart2 />,
     name: "Statement",
@@ -92,77 +92,7 @@ export const navItems = [
       },
     ],
   },
-  // {
-  //   icon: <Undo2Icon />,
-  //   name: "Rollback Operation",
-  //   path: "/rollback-operation",
-  // },
-  // {
-  //   icon: <FileBarChart2 />,
-  //   name: "Reports",
-  //   subItems: [
-  //     {
-  //       name: "Product Activation Report",
-  //       path: "/transaction-report",
-  //       pro: false,
-  //     },
-  //     {
-  //       name: "Stock out & in Report",
-  //       path: "/stock-out-in-report",
-  //       pro: false,
-  //     },
-  //     {
-  //       name: "Downline Stock In & Out Report",
-  //       path: "/downline-report",
-  //       pro: false,
-  //     },
-  //     {
-  //       name: "Downline Product Activation Report",
-  //       path: "/downline-product-activation",
-  //       pro: false,
-  //     },
-  //     {
-  //       name: "Downline Recharge Report",
-  //       path: "/downline-recharge-report",
-  //       pro: false,
-  //     },
-  //     {
-  //       name: "Rollback Report",
-  //       path: "/rollback-report",
-  //       pro: false,
-  //     },
-  //     {
-  //       name: "Topup Recharge Report",
-  //       path: "/topup-report",
-  //       pro: false,
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   icon: <CalenderIcon />,
-  //   name: "Calendar",
-  //   path: "/calendar",
-  // },
-
-  // {
-  //   name: "Forms",
-  //   icon: <ListIcon />,
-  //   subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  // },
-  // {
-  //   name: "Tables",
-  //   icon: <TableIcon />,
-  //   subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  // },
-  // {
-  //   name: "Pages",
-  //   icon: <PageIcon />,
-  //   subItems: [
-  //     { name: "Blank Page", path: "/blank", pro: false },
-  //     { name: "404 Error", path: "/error-404", pro: false },
-  //   ],
-  // },
+  
 ];
 
 export const othersItems = [
@@ -173,14 +103,14 @@ export const othersItems = [
   },
   {
     icon: <Headphones />,
-    name: "ContactUs",
-    path: "/contact-us",
+  name: "Support",
+    path: "/ticket-management",
   },
-  {
-    icon: <GraduationCap />,
-    name: "Tutorial",
-    path: "/toturial",
-  },
+  // {
+  //   icon: <GraduationCap />,
+  //   name: "Tutorial",
+  //   path: "/toturial",
+  // },
   // {
   //   icon: <PieChartIcon />,
   //   name: "Charts",

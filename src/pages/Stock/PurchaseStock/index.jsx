@@ -80,7 +80,11 @@ function PurchaseStock() {
   const createMutation = useMutation({
     mutationFn: ({ data, file }) => createPurchaseRequest(data, file),
     onSuccess: () => {
-      queryClient.invalidateQueries(["purchaseRequests"]);
+       queryClient.invalidateQueries({
+        queryKey: ["purchaseRequests"],
+        exact: false
+      });
+      refetch();
       setIsRequestModalOpen(false);
     }
   });

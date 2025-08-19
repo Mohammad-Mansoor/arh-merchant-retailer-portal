@@ -184,10 +184,10 @@ const { data, isLoading, isError, error } = useQuery({
       <div className="flex flex-col gap-5 mb-6 sm:flex-row sm:justify-between">
         <div className="w-full">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Stock Transfer Statics
+            Recharge Statics
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Stock transfer targets for each {timeRange === "monthly" ? "month" : "week"}
+            Recharge targets for each {timeRange === "monthly" ? "month" : "week"}
           </p>
         </div>
         <div className="flex items-start w-full gap-3 sm:justify-end">

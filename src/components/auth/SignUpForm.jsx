@@ -11,7 +11,6 @@ import {
   Autocomplete,
   Button
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import { Camera } from "lucide-react";
 import { signUpAgent } from "../../services/agent_management_service";
 import { 
@@ -20,6 +19,10 @@ import {
   getDistrictsBaseOnProvince 
 } from "../../services/public_service";
 import { useQuery } from "@tanstack/react-query";
+import StyledForm from "../ui/formUI/StyledForm";
+import FormSection from "../ui/formUI/FormSection";
+import SectionTitle from "../ui/formUI/SectionTitle";
+import redFocusStyles from "../ui/formUI/redFocusStyles";
 
 const languages = [
   { label: "English", value: "english", icon: "https://flagcdn.com/us.svg" },
@@ -27,63 +30,7 @@ const languages = [
   { label: "Pashto", value: "pashto", icon: "https://flagcdn.com/af.svg" },
 ];
 
-const StyledForm = styled("form")(({ theme }) => ({
-  width: "100%",
-  maxWidth: "800px",
-  margin: "0 auto",
-  padding: theme.spacing(3),
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[3],
-  transition: "all 0.3s ease",
-  "&:hover": {
-    boxShadow: theme.shadows[6],
-  },
-}));
 
-const FormSection = styled("div")(({ theme }) => ({
-  marginBottom: theme.spacing(4),
-  padding: theme.spacing(3),
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.background.default,
-}));
-
-const SectionTitle = styled("h3")(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-  color: theme.palette.primary.main,
-  paddingBottom: theme.spacing(1),
-  fontWeight: 600,
-  fontSize: "1.2rem",
-  position: "relative",
-  "&:after": {
-    content: '""',
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: "50px",
-    height: "3px",
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: "3px",
-  },
-}));
-
-const redFocusStyles = {
-  width: "100%",
-  borderRadius: "8px",
-  "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": { 
-      borderColor: "#CD0C02 !important",
-      boxShadow: "0 0 0 2px rgba(205, 12, 2, 0.2)",
-    },
-    "&:hover fieldset": { borderColor: "#ff6666" },
-  },
-  "& .MuiInputLabel-root.Mui-focused": { 
-    color: "#CD0C02 !important",
-    fontWeight: 600,
-  },
-  "& .MuiAutocomplete-popupIndicator.Mui-focused": { color: "#CD0C02" },
-};
 
 export default function SignUpForm() {
   const navigate = useNavigate();
@@ -102,9 +49,9 @@ export default function SignUpForm() {
     address: "",
     messageLanguage: "",
     profile_picture: "",
-    status: "active", // Set by default
-    accountType: "merchant", // Set by default
-    registrationType: "direct", // Set by default
+    status: "active", 
+    accountType: "merchant",
+    registrationType: "direct", 
   });
 
   const { data: countries, isLoading: loadingCountries } = useQuery({
@@ -128,7 +75,7 @@ export default function SignUpForm() {
     mutationFn: (formData) => signUpAgent(formData),
     onSuccess: () => {
       toast.success("Agent account created successfully!");
-      navigate("/login");
+      navigate("/signin");
     },
     onError: (error) => {
       console.error("Sign up error:", error);
@@ -204,9 +151,9 @@ export default function SignUpForm() {
         <div className="flex justify-center mb-8">
           <div className="relative w-32 h-32 rounded-full border-2 border-dashed border-gray-300 group">
             {formData.profile_picture ? (
-              <Avatar 
+              <img 
                 src={formData.profile_picture} 
-                className="w-full h-full transition-transform group-hover:scale-105"
+                className="w-full h-full rounded-full object-cover transition-transform group-hover:scale-105"
               />
             ) : (
               <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-gray-300 transition-colors">
