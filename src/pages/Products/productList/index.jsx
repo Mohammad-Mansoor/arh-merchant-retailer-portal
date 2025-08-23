@@ -237,6 +237,7 @@ const darkDropdownStyles = {
         open={confirmModal}
         phone={phone}
         onClose={closeConfirmModal}
+
         product={selectedProduct}
       />
       
@@ -364,7 +365,6 @@ const darkDropdownStyles = {
                 />
               </div>
               
-              {/* Product Type Filter - Beautiful Autocomplete */}
               <div>
                 <label className="block text-sm font-medium mb-2 dark:text-gray-300">
                   Product Type

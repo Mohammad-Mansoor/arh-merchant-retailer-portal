@@ -4,6 +4,8 @@ import { createTicket, getTicketTypes } from "../../../services/ticketService";
 import { useSelector } from "react-redux";
 import TicketSuccessModal from "./SuccessModal";
 import TicketErrorModal from "./ErrorModal";
+import { useTranslation } from "react-i18next";
+
 
 export default function MerchantCreateTicketModal({ open, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ export default function MerchantCreateTicketModal({ open, onClose, onSuccess }) 
     description: "",
     attachment: null,
   });
+  const {t} = useTranslation();
   const userInfo = useSelector((state) => state.auth.user); 
   const [validationErrors, setValidationErrors] = useState({});
   const [selectedTicketType, setSelectedTicketType] = useState(null);
@@ -79,11 +82,11 @@ const { data: ticketTypes = [] } = useQuery({
     const errors = {};
     
     if (!formData.ticketTypeId) {
-      errors.ticketTypeId = "Ticket type is required";
+      errors.ticketTypeId = t("ticketTypeR");
     }
     
     if (!formData.description) {
-      errors.description = "Description is required";
+      errors.description = t("descriptionR");
     }
     
 
@@ -92,11 +95,11 @@ const { data: ticketTypes = [] } = useQuery({
       
       if (typeName.includes("mistaken") || typeName.includes("recharge")) {
         if (!formData.mobileNumber) {
-          errors.mobileNumber = "Mobile number is required";
+          errors.mobileNumber = t("mobileNR");
         }
         
         if (!formData.txnNumber) {
-          errors.txnNumber = "Transaction number is required";
+          errors.txnNumber = t("transactionNR");
         }
       }
     }
@@ -125,7 +128,7 @@ const { data: ticketTypes = [] } = useQuery({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/20 bg-opacity-50 flex items-center justify-center z-50 p-4">
       <TicketSuccessModal
         open={isSuccess}
         onClose={() => {
@@ -144,7 +147,7 @@ const { data: ticketTypes = [] } = useQuery({
       <div className="bg-white rounded-lg w-full max-w-2xl">
         <div className="p-6">
           <div className="flex justify-between items-center pb-4 border-b">
-            <h3 className="text-xl font-semibold">Create New Ticket</h3>
+            <h3 className="text-xl font-semibold">{t("createN")}</h3>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               ✕
             </button>
@@ -153,7 +156,7 @@ const { data: ticketTypes = [] } = useQuery({
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Ticket Type *
+                {t("ticketT")}
               </label>
               <select
                 name="ticketTypeId"
@@ -161,7 +164,7 @@ const { data: ticketTypes = [] } = useQuery({
                 onChange={handleChange}
                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
               >
-                <option value="">Select a ticket type</option>
+                <option value="">{t("selectTT")}</option>
                 {ticketTypes?.map(type => (
                   <option key={type.id} value={type.id}>
                     {type.name}
@@ -180,7 +183,7 @@ const { data: ticketTypes = [] } = useQuery({
                   <>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Mobile Number *
+                        {t("mobileNRR")}
                       </label>
                       <input
                         type="text"
@@ -196,7 +199,7 @@ const { data: ticketTypes = [] } = useQuery({
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Transaction Number *
+                        {t("transactionNRR")}
                       </label>
                       <input
                         type="text"
@@ -216,7 +219,7 @@ const { data: ticketTypes = [] } = useQuery({
             
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Description *
+                {t("descriptionRR")}
               </label>
               <textarea
                 name="description"
@@ -232,7 +235,7 @@ const { data: ticketTypes = [] } = useQuery({
             
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Attachment
+                {t("attachment")}
               </label>
               <div className="mt-1 flex items-center">
                 <input
@@ -258,14 +261,14 @@ const { data: ticketTypes = [] } = useQuery({
                 onClick={onClose}
                 className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 type="submit"
                 disabled={mutation.isLoading}
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
-                {mutation.isLoading ? "Creating..." : "Create Ticket"}
+                {mutation.isLoading ? t("creating...") : t("createT")}
               </button>
             </div>
           </form>

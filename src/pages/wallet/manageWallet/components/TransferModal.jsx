@@ -153,6 +153,7 @@ export default function TransferModal({ open, onClose, onTransferSuccess }) {
                 }}
                 sx={{
                   color: "#CD0C02",
+                
                   "&.Mui-checked": {
                     color: "#CD0C02",
                   },
@@ -160,7 +161,7 @@ export default function TransferModal({ open, onClose, onTransferSuccess }) {
               />
             }
             label={t("transferModal.transferAll")}
-            className="mt-4 text-sm font-medium"
+            className="mt-4  text-sm font-medium"
           />
         </div>
 

@@ -1,5 +1,6 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -23,6 +24,7 @@ export default function PurchaseErrorModal({
   onRetry,
   payload
 }) {
+  const {t} = useTranslation();
   return (
     <StyledDialog open={open} onClose={onClose}>
       <div className="pt-6 px-4 w-full text-center bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
@@ -53,16 +55,16 @@ export default function PurchaseErrorModal({
           <div className="w-full bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)] p-4 rounded-lg">
             <div className="space-y-2 text-left">
               <div className="flex items-center justify-between">
-                <h3 className="font-medium">Payment Method</h3>
+                <h3 className="font-medium">{t("paymentM")}</h3>
                 <h3>{payload?.payment_method}</h3>
               </div>
               <div className="flex items-center justify-between">
-                <h3 className="font-medium">Amount</h3>
+                <h3 className="font-medium">{t("amount")}</h3>
                 <h3>{payload?.amount} AFG</h3>
               </div>
               {payload?.note && (
                 <div className="flex items-start justify-between">
-                  <h3 className="font-medium">Note</h3>
+                  <h3 className="font-medium">{t("note")}</h3>
                   <p className="text-right max-w-[70%]">{payload.note}</p>
                 </div>
               )}
@@ -79,13 +81,13 @@ export default function PurchaseErrorModal({
             onClick={onRetry}
             className="w-full py-2 px-4 rounded-md text-white bg-[#CD0C02] hover:bg-[#B71C1C] transition"
           >
-            Retry
+           {t("retry")}
           </button>
           <button
             onClick={onClose}
             className="w-full py-2 px-4 rounded-md text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
           >
-            Go Back
+            {t("goBack")}
           </button>
         </div>
       </div>

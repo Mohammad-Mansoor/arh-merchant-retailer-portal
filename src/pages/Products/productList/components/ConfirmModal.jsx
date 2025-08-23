@@ -54,6 +54,11 @@ export default function ConfirmProductModal({ open, onClose, product, phone }) {
 
   const closeSuccessModal = () => {
     setIsTransferSuccess(false);
+    onClose();
+  };
+  const handleSuccessClose = () => {
+    setIsTransferSuccess(false);
+    onClose(); 
   };
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (payload) => activateProduct(payload),
@@ -84,6 +89,7 @@ export default function ConfirmProductModal({ open, onClose, product, phone }) {
       <SuccessModal
         open={isTransferSuccess}
         onClose={closeSuccessModal}
+        onSuccessClose={handleSuccessClose} 
         product={product}
         phone={phone}
       />

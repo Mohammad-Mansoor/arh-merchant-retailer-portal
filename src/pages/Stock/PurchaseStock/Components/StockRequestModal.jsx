@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { FileUploader } from "react-drag-drop-files";
 import PurchaseSuccessModal from "./SuccessModal";
 import PurchaseErrorModal from "./ErrorModal";
+import { useTranslation } from "react-i18next";
 
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -61,6 +62,7 @@ export default function PurchaseRequestModal({
   });
   console.log("isLoading:", isLoading);
   const [file, setFile] = useState(null);
+  const {t} = useTranslation();
   const [errors, setErrors] = useState({});
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -136,14 +138,14 @@ const resetForm = () => {
     <StyledDialog open={open} onClose={onClose}>
       
       <div className="px-5 py-3">
-        <h3 className="my-3 text-xl font-semibold">Create Purchase Request</h3>
+        <h3 className="my-3 text-xl font-semibold">{t("createP")}</h3>
 
         <div className="w-full grid grid-cols-1 gap-5 mt-4">
           <div>
             <TextField
               select
               fullWidth
-              label="Payment Method"
+              label={t("paymentM")}
               sx={redFocusStyles}
               name="payment_method"
               value={formData.payment_method}
@@ -152,10 +154,10 @@ const resetForm = () => {
               helperText={errors.payment_method}
               variant="outlined"
             >
-              <MenuItem value="Cash">Cash</MenuItem>
-              <MenuItem value="Bank">Bank</MenuItem>
-              <MenuItem value="Bank">Online</MenuItem>
-              <MenuItem value="Online">Lease</MenuItem>
+              <MenuItem value="Cash">{t("cash")}</MenuItem>
+              <MenuItem value="Bank">{t("bank")}</MenuItem>
+              <MenuItem value="Bank">{t("online")}</MenuItem>
+              <MenuItem value="Online">{t("lease")}</MenuItem>
             </TextField>
           </div>
           
@@ -163,7 +165,7 @@ const resetForm = () => {
             <TextField
               fullWidth
               type="number"
-              label="Amount"
+              label={t("amount")}
               name="amount"
               sx={redFocusStyles}
               value={formData.amount}
@@ -191,7 +193,7 @@ const resetForm = () => {
   "& .MuiInputLabel-root.Mui-focused": { color: "#CD0C02 !important" },
   "& .MuiAutocomplete-popupIndicator.Mui-focused": { color: "#CD0C02" },
   }}
-              label="Note (Optional)"
+              label={t("noteO")}
               name="note"
               value={formData.note}
               onChange={handleChange}
@@ -202,7 +204,7 @@ const resetForm = () => {
           <div>
             <div className="mb-2">
               <label className="block text-sm font-medium mb-1">
-                Attachment
+                {t("attachment")}
               </label>
             </div>
             
@@ -211,7 +213,7 @@ const resetForm = () => {
   handleChange={handleFileChange}
   name="attachment"
   types={fileTypes}
-  label="Drag & drop file here or click to browse"
+  label={t("drag1")}
   hoverTitle="Drop here"
   dropMessageStyle={{ border: '2px dashed #CD0C02', borderRadius: '8px' }}
 >
@@ -221,24 +223,24 @@ const resetForm = () => {
       
         <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
           <div className="flex gap-2">
-  <h4 className="font-medium mb-2">Selected File:</h4>
+  <h4 className="font-medium mb-2">{t("select")}</h4>
           <span className="truncate max-w-xs">{file.name}</span></div>
           <button
             type="button"
             onClick={handleRemoveFile}
             className="text-red-500 hover:text-red-700"
           >
-            Remove
+            {t("remove")}
           </button>
         </div>
       </div>
     ) : (
       <>
         <p className="text-gray-500">
-          Drag & drop file here or click to browse
+          {t("drag2")}
         </p>
         <p className="text-xs text-gray-400 mt-2">
-          Supported formats: JPG, PNG, JPEG, PDF
+          {t("support1")}
         </p>
       </>
     )}
@@ -253,14 +255,14 @@ const resetForm = () => {
             disabled={isLoading}
             className="py-2 px-6 border border-gray-400 rounded-md w-[30%] disabled:opacity-50"
           >
-            Cancel
+            {t("cancel")}
           </button>
           <button
             onClick={handleSubmit}
             // disabled={isLoading}
             className="text-white bg-[#CD0C02] w-[70%] py-2 px-6 rounded-md disabled:opacity-50 hover:bg-[#CD0C02]/90 transition"
           >
-            {isLoading ? "Submitting..." : "Submit Request"}
+            {isLoading ? t("submitting...") : t("submit")}
           </button>
         </div>
       </div>
@@ -277,7 +279,7 @@ const resetForm = () => {
       <PurchaseErrorModal
         open={isError}
         onClose={() => setIsError(false)}
-        title="Purchase Request Failed"
+        title={t("purchaseFailed")}
         error={errorMessage}
         onRetry={handleSubmit}
         payload={formData}

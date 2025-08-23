@@ -1,5 +1,6 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -21,6 +22,7 @@ export default function TicketErrorModal({
   error,
   onRetry,
 }) {
+  const {t} = useTranslation();
   return (
     <StyledDialog open={open} onClose={onClose}>
       <div className="w-full p-4 text-center bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
@@ -41,7 +43,7 @@ export default function TicketErrorModal({
           </svg>
         </div>
 
-        <h1 className="text-[24px] mt-4 font-medium">Ticket Creation Failed</h1>
+        <h1 className="text-[24px] mt-4 font-medium">{t("ticketCF")}</h1>
         <p className="text-red-600 dark:text-red-400 mt-2">{error}</p>
         
         <div className="w-full flex items-center justify-center flex-col space-y-2 p-4 mt-4">
@@ -49,13 +51,13 @@ export default function TicketErrorModal({
             onClick={onRetry}
             className="w-full py-2 px-4 rounded-md text-white bg-[#CD0C02] hover:bg-[#B71C1C] transition"
           >
-            Try Again
+            {t("tryAgain")}
           </button>
           <button
             onClick={onClose}
             className="w-full py-2 px-4 rounded-md text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
           >
-            Go Back
+            {t("goBack")}
           </button>
         </div>
       </div>

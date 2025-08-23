@@ -7,10 +7,12 @@ import { saveAs } from "file-saver";
 import { getStatementReport } from "../../services/statement";
 import StatementFilterModal from "./components/StatementFilterModal";
 import ARHCustomDataTable from "../../components/dataTable/ARHCustomDataTable";
+import { useTranslation } from "react-i18next";
 
 
 const StatementReport = () => {
   const queryClient = useQueryClient();
+  const {t} = useTranslation();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filter, setFilter] = useState({
     page: 1,
@@ -31,43 +33,43 @@ const StatementReport = () => {
   const columns = [
     {
       key: "createdAt",
-      label: "Date",
+      label: t("date"),
       render: (item) => new Date(item.createdAt).toLocaleDateString()
     },
     { 
       key: "transactionId", 
-      label: "Transaction ID" 
+      label: t("transactionID") 
     },
     { 
       key: "transactionType", 
-      label: "Type" 
+      label: t("type")
     },
     {
       key: "debit",
-      label: "Debit",
+      label: t("debit"),
       render: (item) => item.debit ? formatCurrency(item.debit) : "-",
       cellClassName: "text-red-600 dark:text-red-400"
     },
     {
       key: "credit",
-      label: "Credit",
+      label: t("credit"),
       render: (item) => item.credit ? formatCurrency(item.credit) : "-",
       cellClassName: "text-green-600 dark:text-green-400"
     },
     {
       key: "walletBalance",
-      label: "Balance",
+      label: t("balance"),
       render: (item) => formatCurrency(item.walletBalance),
       cellClassName: "font-medium"
     },
     {
       key: "remarks",
-      label: "Remarks",
+      label: t("remarks"),
       render: (item) => item.remarks || "-"
     },
     {
       key: "agent",
-      label: "Agent",
+      label: t("agent"),
       render: (item) => item.agent?.username || "N/A"
     }
   ];
@@ -151,7 +153,7 @@ const StatementReport = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
       </div>
-      <div className="text-sm text-red-600 mb-2">Failed to load statements</div>
+      <div className="text-sm text-red-600 mb-2">{t("failedTLS")}</div>
       <button
         onClick={refetch}
         className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700"
@@ -191,7 +193,7 @@ const StatementReport = () => {
             onClick={() => setIsFilterModalOpen(true)}
             className="bg-[#CD0C02] px-4 py-[10px] rounded-md text-white flex items-center gap-2"
           >
-            Generate Statement
+            {t("generateS")}
           </button>
           
           <button
@@ -204,7 +206,7 @@ const StatementReport = () => {
             }`}
           >
             <Download size={18} />
-            Export
+            {t("export")}
           </button>
         </div>
       </div>
@@ -212,7 +214,7 @@ const StatementReport = () => {
       <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm">
         {filter.startDate && filter.endDate && (
           <div className="mb-4 text-sm text-gray-600 dark:text-gray-300">
-            Showing statements from {new Date(filter.startDate).toLocaleDateString()} 
+            {t("showingS")} {new Date(filter.startDate).toLocaleDateString()} 
             {" "}to {new Date(filter.endDate).toLocaleDateString()}
             {data?.meta?.total && ` • ${data.meta.total} records found`}
           </div>

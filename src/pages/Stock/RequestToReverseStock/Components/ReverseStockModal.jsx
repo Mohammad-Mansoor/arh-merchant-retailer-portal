@@ -9,6 +9,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { FileUploader } from "react-drag-drop-files";
 import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -59,6 +60,7 @@ export default function ReverseStockModal({
   isLoading,
   retailers
 }) {
+  const {t} = useTranslation();
   const [formData, setFormData] = useState({
     reversedFrom: "",
     amount: "",
@@ -131,7 +133,7 @@ export default function ReverseStockModal({
       <div className="px-5 py-3">
         <div className="flex justify-between items-center">
           <Typography variant="h6" className="my-3 text-xl font-semibold">
-            New Reverse Stock Request
+            {t("NewRe")}
           </Typography>
           <IconButton onClick={onClose} disabled={isLoading}>
             <CloseIcon />
@@ -143,7 +145,7 @@ export default function ReverseStockModal({
             <TextField
               select
               fullWidth
-              label="Select Retailer"
+              label={t("selectR")}
               sx={redFocusStyles}
               name="reversedFrom"
               value={formData.reversedFrom}
@@ -153,9 +155,8 @@ export default function ReverseStockModal({
               variant="outlined"
             >
               {retailers.map(retailer => (
-                <MenuItem key={retailer.
-user_id} value={retailer.
-user_id}>
+                <MenuItem key={retailer.id} value={retailer.
+id}>
                   {retailer?.user?.username} 
                 </MenuItem>
               ))}
@@ -166,7 +167,7 @@ user_id}>
             <TextField
               fullWidth
               type="number"
-              label="Amount"
+              label={t("amount")}
               name="amount"
               sx={redFocusStyles}
               value={formData.amount}
@@ -192,7 +193,7 @@ user_id}>
                 },
                 "& .MuiInputLabel-root.Mui-focused": { color: "#CD0C02 !important" },
               }}
-              label="Comments (Optional)"
+              label={t("commentsO")}
               name="comment"
               value={formData.comment}
               onChange={handleChange}
@@ -203,7 +204,7 @@ user_id}>
           <div>
             <div className="mb-2">
               <label className="block text-sm font-medium mb-1">
-                Attachment (Optional)
+                {t("attachmentO")}
               </label>
             </div>
             
@@ -221,7 +222,7 @@ user_id}>
                   <div className="text-left">
                     <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
                       <div className="flex gap-2">
-                        <h4 className="font-medium mb-2">Selected File:</h4>
+                        <h4 className="font-medium mb-2">{t("select")}</h4>
                         <span className="truncate max-w-xs">{file.name}</span>
                       </div>
                       <button
@@ -229,17 +230,17 @@ user_id}>
                         onClick={handleRemoveFile}
                         className="text-red-500 hover:text-red-700"
                       >
-                        Remove
+                        {t("remove")}
                       </button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <p className="text-gray-500">
-                      Drag & drop file here or click to browse
+                      {t("drag1")}
                     </p>
                     <p className="text-xs text-gray-400 mt-2">
-                      Supported formats: JPG, PNG, JPEG, PDF
+                      {t("support1")}
                     </p>
                   </>
                 )}
@@ -254,14 +255,14 @@ user_id}>
             disabled={isLoading}
             className="py-2 px-6 border border-gray-400 rounded-md w-[30%] disabled:opacity-50"
           >
-            Cancel
+            {t("cancel")}
           </button>
           <button
             onClick={handleSubmit}
             disabled={isLoading}
             className="text-white bg-[#CD0C02] w-[70%] py-2 px-6 rounded-md disabled:opacity-50 hover:bg-[#CD0C02]/90 transition"
           >
-            {isLoading ? "Submitting..." : "Submit Request"}
+            {isLoading ? t("submitting...") : t("submit")}
           </button>
         </div>
       </div>

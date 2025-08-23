@@ -2,11 +2,19 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { visualizer } from "rollup-plugin-visualizer";
-
+import unusedCode from 'vite-plugin-unused-code';
 export default defineConfig({
-  base: '/merchant/',
+  // base: '/merchant/',
   plugins: [
     react(),
+     unusedCode({
+      patterns: ['src/**/*.*'],
+      detectUnusedFiles: true,
+      detectUnusedExport: true,
+      failOnHint: false,
+      exportJSON: true,
+      log: 'all'
+    }),
     svgr({
       exportAsDefault: false,
       svgrOptions: { icon: true },

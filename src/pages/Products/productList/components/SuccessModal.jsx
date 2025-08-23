@@ -19,7 +19,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function SuccessModal({ open, onClose, product, phone }) {
+export default function SuccessModal({ open, onClose, product, phone, onSuccessClose }) {
   return (
     <StyledDialog open={open} onClose={onClose}>
       <div className=" w-full text-center">
@@ -54,6 +54,7 @@ export default function SuccessModal({ open, onClose, product, phone }) {
           <button
             onClick={() => {
               onClose();
+              onSuccessClose();
             }}
             className="w-full flex items-center justify-center text-white py-2 px-4 rounded-md mt-3 bg-[#CD0C02]"
           >

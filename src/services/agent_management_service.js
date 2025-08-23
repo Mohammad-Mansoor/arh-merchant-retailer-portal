@@ -88,7 +88,7 @@ export const signUpAgent = async (payload) => {
     }
 
     const res = await apiClient.post(
-      `merchant1/sign-up?lang=${lang}`,
+      `merchant/sign-up?lang=${lang}`,
       formData,
       {
         headers: {

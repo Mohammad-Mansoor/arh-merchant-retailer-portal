@@ -27,7 +27,7 @@ export default function CreateAgentSuccessModal({
     let timer;
     if (open) {
       setTimeout(() => setVisible(true), 100);
-      timer = setTimeout(() => onClose(), 15000);
+      timer = setTimeout(() => onClose(), 150000);
     } else {
       setVisible(false);
     }

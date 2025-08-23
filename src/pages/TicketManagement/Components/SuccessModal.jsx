@@ -1,5 +1,6 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { t } from "i18next";
 import { useEffect, useState } from "react";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -63,25 +64,25 @@ export default function TicketSuccessModal({
         </div>
 
         <h1 className="text-[24px] dark:text-white mt-6">
-          Ticket Created Successfully!
+          {t("ticketCS")}
         </h1>
         
         <div className="mt-4 w-full rounded-md dark:text-white bg-gray-100 dark:bg-gray-800 p-4">
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="font-medium">Ticket ID:</span>
+              <span className="font-medium">{t("ticketID")}</span>
               <span className="font-bold">#{payload?.id}</span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium">Type:</span>
+              <span className="font-medium">{t("type:")}</span>
               <span>{payload?.ticketType?.name || "N/A"}</span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium">Status:</span>
+              <span className="font-medium">{t("Status:")}</span>
               <span className="capitalize">{payload?.status || "Pending"}</span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium">Created At:</span>
+              <span className="font-medium">{t("createdAt:")}</span>
               <span>{new Date().toLocaleDateString()}</span>
             </div>
           </div>
@@ -92,7 +93,7 @@ export default function TicketSuccessModal({
             onClick={onClose}
             className="w-full max-w-xs py-2 px-4 rounded-md text-white bg-[#4CAF50] hover:bg-[#388E3C] transition"
           >
-            Continue
+            {t("continue")}
           </button>
         </div>
       </div>

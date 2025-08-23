@@ -2,6 +2,7 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -23,7 +24,7 @@ export default function ReverseStockSuccessModal({
   payload 
 }) {
   const [visible, setVisible] = useState(false);
-
+  const {t} = useTranslation();
   useEffect(() => {
     let timer;
     if (open) {
@@ -71,29 +72,29 @@ export default function ReverseStockSuccessModal({
 
         <div className="flex items-center justify-center mt-10">
           <h1 className="text-[24px] dark:text-white">
-            Reverse Stock Request Submitted Successfully!
+            {t("reverseStockRS")}
           </h1>
         </div>
         
         <div className="flex items-center justify-center px-1 flex-col gap-1 py-1 mt-4 w-full rounded-md dark:text-white bg-[#F3F4F6] dark:bg-gray-800">
           <div className="w-full p-3 space-y-2">
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Retailer</h3>
+              <h3 className="font-medium">{t("retailer")}</h3>
               <h3>{payload?.reversedFrom?.username || "N/A"}</h3>
             </div>
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Amount</h3>
+              <h3 className="font-medium">{t("amount")}</h3>
               <h3>{payload?.amount ? `${parseFloat(payload.amount).toFixed(2)} AFG` : "N/A"}</h3>
             </div>
             {payload?.comment && (
               <div className="flex items-start justify-between">
-                <h3 className="font-medium">Comment</h3>
+                <h3 className="font-medium">{t("comment")}</h3>
                 <p className="text-right max-w-[70%]">{payload.comment}</p>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Status</h3>
-              <h3 className="text-green-600 font-medium">Processing</h3>
+              <h3 className="font-medium">{t("status")}</h3>
+              <h3 className="text-green-600 font-medium">{t("processing")}</h3>
             </div>
           </div>
         </div>
@@ -103,7 +104,7 @@ export default function ReverseStockSuccessModal({
             onClick={onClose}
             className="w-full max-w-xs py-2 px-4 rounded-md text-white bg-[#4CAF50] hover:bg-[#388E3C] transition"
           >
-            Continue
+            {t("continue")}
           </button>
         </div>
       </div>

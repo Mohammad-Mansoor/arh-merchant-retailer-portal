@@ -1,6 +1,7 @@
 // ReverseStockErrorModal.jsx
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -24,6 +25,7 @@ export default function ReverseStockErrorModal({
   onRetry,
   payload
 }) {
+  const {t} = useTranslation();
   return (
     <StyledDialog open={open} onClose={onClose}>
       <div className="pt-6 px-4 w-full text-center bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
@@ -54,16 +56,16 @@ export default function ReverseStockErrorModal({
           <div className="w-full bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)] p-4 rounded-lg">
             <div className="space-y-2 text-left">
               <div className="flex items-center justify-between">
-                <h3 className="font-medium">Retailer</h3>
+                <h3 className="font-medium">{t("retailer")}</h3>
                 <h3>{payload?.reversedFrom?.username || "N/A"}</h3>
               </div>
               <div className="flex items-center justify-between">
-                <h3 className="font-medium">Amount</h3>
+                <h3 className="font-medium">{t("amount")}</h3>
                 <h3>{payload?.amount ? `${parseFloat(payload.amount).toFixed(2)} AFG` : "N/A"}</h3>
               </div>
               {payload?.comment && (
                 <div className="flex items-start justify-between">
-                  <h3 className="font-medium">Comment</h3>
+                  <h3 className="font-medium">{t("comment")}</h3>
                   <p className="text-right max-w-[70%]">{payload.comment}</p>
                 </div>
               )}
@@ -73,7 +75,7 @@ export default function ReverseStockErrorModal({
         
         <div className="flex p-4 justify-center flex-col gap-1 py-3 mt-4 w-full rounded-md bg-red-50 dark:bg-red-900/30">
           <h3 className="text-red-600 dark:text-red-300 font-medium">{error}</h3>
-          <p className="text-sm mt-2">Please check the details and try again</p>
+          <p className="text-sm mt-2">{t("pleaseC")}</p>
         </div>
         
         <div className="w-full flex items-center justify-center flex-col space-y-2 p-4">
@@ -81,13 +83,13 @@ export default function ReverseStockErrorModal({
             onClick={onRetry}
             className="w-full py-2 px-4 rounded-md text-white bg-[#CD0C02] hover:bg-[#B71C1C] transition"
           >
-            Retry Request
+            {t("retryR")}
           </button>
           <button
             onClick={onClose}
             className="w-full py-2 px-4 rounded-md text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
           >
-            Go Back
+           {t("goBack")}
           </button>
         </div>
       </div>

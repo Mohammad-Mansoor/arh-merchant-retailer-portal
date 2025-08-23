@@ -25,20 +25,19 @@ export const navItems = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
+    accountType: ["merchant", "retailer"],
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
   {
     icon: <Wallet />,
     name: "Stock",
+    
     subItems: [
       { name: "MyWallet", path: "/manage-wallet", pro: false },
-      // {
-      //   name: "Transfer From Commission to Primary",
-      //   path: "/comission-to-primary",
-      //   pro: false,
-      // },
+  
       {
         name: "PurchaseStock",
+        accountType: ["merchant", "retailer"],
         path: "/purchase-stock",
         pro: false,
       },
@@ -49,6 +48,7 @@ export const navItems = [
       // },
         {
         name: "StockTransfer",
+        accountType: ["merchant", "retailer"],
         path: "/stock-transfer-downline",
         pro: false,
       },
@@ -61,6 +61,7 @@ export const navItems = [
   },
   {
     icon: <UserCog />,
+    accountType: ["merchant", "retailer"],
     name: "MerchantManagement",
     subItems: [
       {
@@ -70,13 +71,10 @@ export const navItems = [
       },
     ],
   },
-  //  {
-  //   icon: <Ticket />,
-  //   name: "TicketManagement",
-  //   path: "/ticket-management",
-  // },
+
     {
     icon: <FileBarChart2 />,
+    accountType: ["merchant", "retailer"],
     name: "Statement",
     path: "/statment",
   },

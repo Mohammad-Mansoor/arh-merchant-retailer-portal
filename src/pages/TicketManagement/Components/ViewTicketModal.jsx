@@ -1,6 +1,8 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { format } from "date-fns";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -29,6 +31,7 @@ export default function ViewTicketModal({
   onClose, 
   ticket 
 }) {
+  const {t} = useTranslation();
   if (!ticket) return null;
   const API = import.meta.env.VITE_IMG_BASE_URL1;
 
@@ -36,7 +39,7 @@ export default function ViewTicketModal({
     <StyledDialog open={open} onClose={onClose}>
       <div className="w-full p-6 bg-[linear-gradient(135deg,_#EFF2FF_0%,_#FAF5FF_50%,_#FCF3FB_100%)] dark:bg-[linear-gradient(135deg,_#1e293b_0%,_#334155_50%,_#0f172a_100%)]">
         <div className="flex justify-between items-center pb-4 border-b">
-          <h2 className="text-xl font-bold">Ticket Details</h2>
+          <h2 className="text-xl font-bold">{t("ticketD")}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             ✕
           </button>
@@ -45,24 +48,24 @@ export default function ViewTicketModal({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-500">Ticket ID</label>
+              <label className="block text-sm font-medium text-gray-500">{t("ticketI")}</label>
               <p className="mt-1 font-medium">#{ticket.id}</p>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-500">Type</label>
+              <label className="block text-sm font-medium text-gray-500">{t("type")}</label>
               <p className="mt-1">{ticket.ticketType?.name || "N/A"}</p>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-500">Status</label>
+              <label className="block text-sm font-medium text-gray-500">{t("status")}</label>
               <span className={`mt-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[ticket.status]}`}>
                 {ticket.status}
               </span>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-500">Created At</label>
+              <label className="block text-sm font-medium text-gray-500">{t("createdAt")}</label>
               <p className="mt-1">{format(new Date(ticket.createdAt), "MMM dd, yyyy hh:mm a")}</p>
             </div>
           </div>
@@ -70,26 +73,26 @@ export default function ViewTicketModal({
           <div className="space-y-4">
             {ticket.mobileNumber && (
               <div>
-                <label className="block text-sm font-medium text-gray-500">Mobile Number</label>
+                <label className="block text-sm font-medium text-gray-500">{t("mobileNumber")}</label>
                 <p className="mt-1">{ticket.mobileNumber}</p>
               </div>
             )}
             
             {ticket.txnNumber && (
               <div>
-                <label className="block text-sm font-medium text-gray-500">Transaction Number</label>
+                <label className="block text-sm font-medium text-gray-500">{t("transactionNumber")}</label>
                 <p className="mt-1">{ticket.txnNumber}</p>
               </div>
             )}
             
             <div>
-              <label className="block text-sm font-medium text-gray-500">Description</label>
+              <label className="block text-sm font-medium text-gray-500">{t("description")}</label>
               <p className="mt-1 whitespace-pre-line">{ticket.description}</p>
             </div>
             
             {ticket.comment && (
               <div>
-                <label className="block text-sm font-medium text-gray-500">Admin Comment</label>
+                <label className="block text-sm font-medium text-gray-500">{t("adminComment")}</label>
                 <p className="mt-1 whitespace-pre-line">{ticket.comment}</p>
               </div>
             )}
@@ -98,7 +101,7 @@ export default function ViewTicketModal({
         
         {ticket.attachment && (
           <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-500">Attachment</label>
+            <label className="block text-sm font-medium text-gray-500">{t("attachment")}</label>
             <div className="mt-2 w-52">
               <img 
                 src={`${API}/uploads/ticket_images/${ticket.attachment}`} 
@@ -114,7 +117,7 @@ export default function ViewTicketModal({
             onClick={onClose}
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
           >
-            Close
+            {t("close")}
           </button>
         </div>
       </div>

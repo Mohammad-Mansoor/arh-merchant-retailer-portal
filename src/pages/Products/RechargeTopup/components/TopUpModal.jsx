@@ -28,7 +28,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function TopUpModal({ open, onClose }) {
+export default function TopUpModal({ open, onClose, onSuccess }) {
   const [amount, setAmount] = useState(null);
   const [phone, setPhone] = useState(null);
   const [validationError, setValidationError] = useState(null);
@@ -38,7 +38,11 @@ export default function TopUpModal({ open, onClose }) {
   const [errorMessage, setErrorMessage] = useState(false);
   const [phoneErrorMessage, setPhoneErrorMessage] = useState(false);
 
-  const closeSuccessModal = () => setIsTransferSuccess(false);
+   const closeSuccessModal = () => {
+    setIsTransferSuccess(false);
+    onSuccess(); 
+    handleReset(); 
+  };
   const closeErrorModal = () => setIsError(false);
   const { mutate, isPending } = useMutation({
     mutationFn: (payload) => recharge(payload),
@@ -105,6 +109,7 @@ export default function TopUpModal({ open, onClose }) {
       <SuccessModal
         open={isTransferSuccess}
         onClose={closeSuccessModal}
+        onSuccess={closeSuccessModal}
         amount={amount}
       />
       <ErrorModal

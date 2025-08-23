@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
@@ -8,7 +9,7 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import PrivateRoute from "./pages/AuthPages/privateRoute";
 import ManageWallet from "./pages/wallet/manageWallet";
-import TransferFromComissionToPrimary from "./pages/wallet/transferFromComissionToPrimary";
+
 import StockTransferToDownlineAgents from "./pages/wallet/stockTransferToDownlineAgents";
 import ManageAgent from "./pages/agentManagement/manageAgent";
 import RollbackOperation from "./pages/RollbackOperation";
@@ -29,63 +30,163 @@ import Statement from "./pages/Statement";
 import AgentProfile from "./pages/agentManagement/manageAgent/components/AgentDetails";
 import EditAgent from "./pages/agentManagement/manageAgent/components/EditAgent";
 
+// Role-based route protection component
+const RoleProtectedRoute = ({ children, allowedRoles }) => {
+  const user = useSelector((state) => state.auth.user);
+  const userAccountType = user?.agentDetail?.accountType;
+  console.log(userAccountType, "this is user account")
+  
+  if (!user) {
+    return <Navigate to="/signin" />;
+  }
+  
+  if (allowedRoles && !allowedRoles.includes(userAccountType)) {
+    return <Navigate to="/" />;
+  }
+  
+  return children;
+};
+
 export default function App() {
   return (
     <>
-      <Router basename="/merchant">
+      <Router>
         <ScrollToTop />
         <Routes>
+  
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          
+    
           <Route element={<PrivateRoute />}>
             <Route element={<AppLayout />}>
+      
               <Route index element={<Home />} />
               <Route path="/profile" element={<UserProfiles />} />
               <Route path="/manage-wallet" element={<ManageWallet />} />
               <Route path="/product-list" element={<ProductList />} />
               <Route path="/recharge" element={<Recharge />} />
-              <Route
-                path="/comission-to-primary"
-                element={<TransferFromComissionToPrimary />}
-              />
-              <Route
-                path="/stock-transfer-downline"
-                element={<StockTransferToDownlineAgents />}
-              />
-              <Route path="/purchase-stock" element={<PurchaseStock />} />
               <Route path="/orders" element={<Orders />} />
-              <Route path="/statment" element={<Statement />} />
               <Route path="/ticket-management" element={<TicketManagement />} />
               <Route path="/request-reverse" element={<RequestToReverse />} />
-              <Route path="/manage-agent" element={<ManageAgent />} />
-              <Route path="/agent-profile/:id" element={<AgentProfile />} />
-              <Route path="/edit-agent/:id" element={<EditAgent />} />
-              <Route
-                path="/rollback-operation"
-                element={<RollbackOperation />}
+              
+              {/* Routes restricted to merchants and retailers */}
+              <Route 
+                path="/stock-transfer-downline" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <StockTransferToDownlineAgents />
+                  </RoleProtectedRoute>
+                } 
               />
-              <Route
-                path="/transaction-report"
-                element={<ProductActivation />}
+              <Route 
+                path="/purchase-stock" 
+                element={
+                  <RoleProtectedRoute allowedRoles={[, "retailer"]}>
+                    <PurchaseStock />
+                  </RoleProtectedRoute>
+                } 
               />
-              <Route
-                path="/stock-out-in-report"
-                element={<StockOutInReport />}
+              <Route 
+                path="/statment" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <Statement />
+                  </RoleProtectedRoute>
+                } 
               />
-              <Route
-                path="/downline-product-activation"
-                element={<DownlineProductActivation />}
+              <Route 
+                path="/manage-agent" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <ManageAgent />
+                  </RoleProtectedRoute>
+                } 
               />
-              <Route
-                path="/downline-recharge-report"
-                element={<DownlineRechargeReport />}
+              <Route 
+                path="/agent-profile/:id" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <AgentProfile />
+                  </RoleProtectedRoute>
+                } 
               />
-              <Route path="/downline-report" element={<DownlineReport />} />
-              <Route path="/rollback-report" element={<RollbackReport />} />
-              <Route path="/topup-report" element={<TopupRechargeReport />} />
+              <Route 
+                path="/edit-agent/:id" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <EditAgent />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/rollback-operation" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <RollbackOperation />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/transaction-report" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <ProductActivation />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/stock-out-in-report" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <StockOutInReport />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/downline-product-activation" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <DownlineProductActivation />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/downline-recharge-report" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <DownlineRechargeReport />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/downline-report" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <DownlineReport />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/rollback-report" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <RollbackReport />
+                  </RoleProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/topup-report" 
+                element={
+                  <RoleProtectedRoute allowedRoles={["merchant", "retailer"]}>
+                    <TopupRechargeReport />
+                  </RoleProtectedRoute>
+                } 
+              />
             </Route>
           </Route>
 
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          {/* Catch all route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -1,6 +1,7 @@
 import { Dialog } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiBackdrop-root": {
@@ -22,7 +23,7 @@ export default function PurchaseSuccessModal({
   payload 
 }) {
   const [visible, setVisible] = useState(false);
-
+  const {t} = useTranslation();
   useEffect(() => {
     let timer;
     if (open) {
@@ -70,28 +71,28 @@ export default function PurchaseSuccessModal({
 
         <div className="flex items-center justify-center mt-10">
           <h1 className="text-[24px] dark:text-white">
-            Purchase Request Submitted Successfully!
+            {t("purchaseRS")}
           </h1>
         </div>
         
         <div className="flex items-center justify-center px-1 flex-col gap-1 py-1 mt-4 w-full rounded-md dark:text-white bg-[#F3F4F6] dark:bg-gray-800">
           <div className="w-full p-3 space-y-2">
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Payment Method</h3>
+              <h3 className="font-medium">{t("paymentM")}</h3>
               <h3>{payload?.payment_method}</h3>
             </div>
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Amount</h3>
+              <h3 className="font-medium">{t("amount")}</h3>
               <h3>{payload?.amount} AFG</h3>
             </div>
             {payload?.note && (
               <div className="flex items-start justify-between">
-                <h3 className="font-medium">Note</h3>
+                <h3 className="font-medium">{t("note")}</h3>
                 <p className="text-right max-w-[70%]">{payload.note}</p>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Date</h3>
+              <h3 className="font-medium">{t("date")}</h3>
               <h3>{new Date().toLocaleDateString()}</h3>
             </div>
           </div>
@@ -102,7 +103,7 @@ export default function PurchaseSuccessModal({
             onClick={onClose}
             className="w-full max-w-xs py-2 px-4 rounded-md text-white bg-[#4CAF50] hover:bg-[#388E3C] transition"
           >
-            Go Back
+            {t("goBack")}
           </button>
         </div>
       </div>

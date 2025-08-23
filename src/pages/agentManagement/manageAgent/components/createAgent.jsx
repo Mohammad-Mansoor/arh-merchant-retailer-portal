@@ -53,7 +53,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
 
 
-export default function CreateAgent({ open, onClose }) {
+export default function CreateAgent({ open, onClose, refetch }) {
   const userinfo = useSelector((state) => state.auth.user);
   const fileRef = useRef(null);
   const [amount, setAmount] = useState(null);
@@ -139,7 +139,9 @@ export default function CreateAgent({ open, onClose }) {
     onSuccess: () => {
       toast.success("Transfer successful!");
       setIsTransferSuccess(true);
+      setPayload(prev => ({ ...prev, ...data.data }));
       resetForm();
+      refetch();
     },
     onError: (error) => {
       console.log("create agent error:", error);

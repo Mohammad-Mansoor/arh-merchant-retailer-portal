@@ -18,6 +18,9 @@ function Recharge() {
     page: 1,
     agentId: userInfo?.id,
   });
+
+
+
   
   const closeTopupModal = () => setTopupModalOpen(false);
 
@@ -27,12 +30,17 @@ function Recharge() {
   });
 
   const handleRefetch = () => setRefetch((prev) => !prev);
+   const handleTopUpSuccess = () => {
+    setTopupModalOpen(false); 
+    refetch(); 
+  };
+
 
   const handleSearchChange = (value) => {
     setFilter((prev) => ({
       ...prev,
       ["search"]: value,
-      page: 1 // Reset to first page when searching
+      page: 1 
     }));
   };
 
@@ -121,7 +129,7 @@ function Recharge() {
 
   return (
     <div className="w-full px-5 py-4 min-h-screen">
-      <TopUpModal open={topupModalOpen} onClose={closeTopupModal} />
+      <TopUpModal open={topupModalOpen} onClose={closeTopupModal} onSuccess={handleTopUpSuccess} />
 
       <div className="w-full flex items-center justify-between gap-5 mt-5">
         <div className="flex items-center justify-start w-[70%] gap-5">

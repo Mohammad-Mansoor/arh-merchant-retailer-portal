@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Checkbox } from "@headlessui/react";
 import { CheckIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { getUserInfo, signIn } from "../../services/authService";
+import { getUserInfo, signIn, startAuth, generateOtp, verifyOtp } from "../../services/authService";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, setUser } from "../../store/slicers/authSlicer";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -16,6 +16,9 @@ export default function SignInForm() {
   const [errors, setErrors] = useState({});
   const [authFlow, setAuthFlow] = useState("regular"); // 'regular', 'sso-email', 'sso-otp'
   const [otp, setOtp] = useState(Array(6).fill(""));
+  const [otpInfo, setOtpInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingType, setLoadingType] = useState(""); // 'signin', 'sso', 'otp'
   const inputRefs = useRef([]);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -29,6 +32,8 @@ export default function SignInForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setLoadingType("signin");
 
     const validationErrors = {};
     if (!email) {
@@ -45,6 +50,8 @@ export default function SignInForm() {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setIsLoading(false);
+      setLoadingType("");
       return;
     }
 
@@ -55,15 +62,22 @@ export default function SignInForm() {
         dispatch(loginSuccess(res.access_token));
         const user = await getUserInfo();
         dispatch(setUser(user?.data));
+        navigate("/");
       }
     } catch (error) {
       console.error("Sign-in error:", error);
-      setErrors({ general: "Invalid credentials" });
+      setErrors({ general: error.response?.data?.message || "Invalid credentials" });
+    } finally {
+      setIsLoading(false);
+      setLoadingType("");
     }
   };
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setLoadingType("sso");
+    
     const validationErrors = {};
     
     if (!email) {
@@ -74,18 +88,63 @@ export default function SignInForm() {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setIsLoading(false);
+      setLoadingType("");
       return;
     }
     
-    // Here you would typically send the OTP to the user's email
-    setAuthFlow("sso-otp");
+    try {
+      const authInfo = await startAuth({ email: email });
+      
+      if (authInfo.canUseOtp) {
+        const otpResponse = await generateOtp({ email: email });
+        setOtpInfo(otpResponse);
+        setAuthFlow("sso-otp");
+      } else if (authInfo.canUsePassword) {
+        setErrors({ general: "Please use the regular login form for this account" });
+        setAuthFlow("regular");
+      } else {
+        setErrors({ general: "No valid authentication method found for this account" });
+      }
+    } catch (error) {
+      console.error("SSO Email error:", error);
+      setErrors({ general: error.response?.data?.message || "Error processing your request" });
+    } finally {
+      setIsLoading(false);
+      setLoadingType("");
+    }
   };
 
-  const handleOTPSubmit = (e) => {
+  const handleOTPSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setLoadingType("otp");
+    
     const enteredOtp = otp.join('');
-    console.log("OTP submitted:", enteredOtp);
-    // Add your OTP verification logic here
+    
+    if (enteredOtp.length !== 6) {
+      setErrors({ otp: "Please enter a valid 6-digit OTP" });
+      setIsLoading(false);
+      setLoadingType("");
+      return;
+    }
+    
+    try {
+      const res = await verifyOtp({ identifier: email, otp: enteredOtp });
+      
+      if (res.access_token) {
+        dispatch(loginSuccess(res.access_token));
+        const user = await getUserInfo();
+        dispatch(setUser(user?.data));
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      setErrors({ general: error.response?.data?.message || "Invalid OTP" });
+    } finally {
+      setIsLoading(false);
+      setLoadingType("");
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -140,6 +199,13 @@ export default function SignInForm() {
     const digits = text.split("");
     setOtp(digits);
   };
+
+  // Spinner component
+  const Spinner = () => (
+    <div className="flex items-center justify-center">
+      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-indigo-900 dark:to-purple-900 p-4">
@@ -282,9 +348,17 @@ export default function SignInForm() {
                   <div>
                     <button
                       type="submit"
-                      className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] hover:from-[#cd0202] hover:to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      disabled={isLoading && loadingType === "signin"}
+                      className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] hover:from-[#cd0202] hover:to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                      Sign In
+                      {isLoading && loadingType === "signin" ? (
+                        <>
+                          <Spinner />
+                          Signing in...
+                        </>
+                      ) : (
+                        "Sign In"
+                      )}
                     </button>
                   </div>
 
@@ -394,11 +468,25 @@ export default function SignInForm() {
                   <div>
                     <button
                       type="submit"
-                      className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] hover:from-[#cd0202] hover:to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      disabled={isLoading && loadingType === "sso"}
+                      className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] hover:from-[#cd0202] hover:to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                      Send OTP
+                      {isLoading && loadingType === "sso" ? (
+                        <>
+                          <Spinner />
+                          Sending OTP...
+                        </>
+                      ) : (
+                        "Send OTP"
+                      )}
                     </button>
                   </div>
+
+                  {errors.general && (
+                    <p className="text-sm text-red-600 dark:text-red-400 text-center">
+                      {errors.general}
+                    </p>
+                  )}
 
                   <div className="mt-4 text-center">
                     <button
@@ -414,7 +502,7 @@ export default function SignInForm() {
             </div>
           )}
 
-          {/* OTP Verification Form */}
+        
           {authFlow === "sso-otp" && (
             <div className="bg-white dark:bg-gray-850 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-800">
               <div className="h-2 bg-gradient-to-r from-[#FF8B4C] via-[#FFC857] to-[#FFE9A0]"></div>
@@ -468,24 +556,59 @@ export default function SignInForm() {
                         />
                       ))}
                     </div>
+                    {errors.otp && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400 text-center">
+                        {errors.otp}
+                      </p>
+                    )}
                   </div>
 
                   <div>
                     <button
                       type="submit"
-                      className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] hover:from-[#cd0202] hover:to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      disabled={isLoading && loadingType === "otp"}
+                      className="w-full py-3 px-4 bg-gradient-to-r from-[#cd0202] to-[#ec68b5] hover:from-[#cd0202] hover:to-[#ec68b5] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                      Verify OTP
+                      {isLoading && loadingType === "otp" ? (
+                        <>
+                          <Spinner />
+                          Verifying...
+                        </>
+                      ) : (
+                        "Verify OTP"
+                      )}
                     </button>
                   </div>
 
-                  <div className="mt-4 text-center">
+                  {errors.general && (
+                    <p className="text-sm text-red-600 dark:text-red-400 text-center">
+                      {errors.general}
+                    </p>
+                  )}
+
+                  <div className="mt-4 text-center flex justify-between">
                     <button
                       type="button"
                       onClick={() => setAuthFlow("sso-email")}
                       className="text-sm text-[#CD0202] hover:text-[#FF8B4C] dark:text-[#FF8B4C] dark:hover:text-indigo-300 transition-colors"
                     >
                       Back to Email Entry
+                    </button>
+                    
+                    <button
+                      type="button"
+                      onClick={handleEmailSubmit}
+                      disabled={isLoading}
+                      className="text-sm text-[#CD0202] hover:text-[#FF8B4C] dark:text-[#FF8B4C] dark:hover:text-indigo-300 transition-colors flex items-center gap-1"
+                    >
+                      {isLoading && loadingType === "sso" ? (
+                        <>
+                          <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
+                          Resending...
+                        </>
+                      ) : (
+                        "Resend OTP"
+                      )}
                     </button>
                   </div>
                 </form>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useTranslation } from "react-i18next";
 
 const StatementFilterModal = ({ 
   open, 
@@ -12,6 +13,7 @@ const StatementFilterModal = ({
   const [filterType, setFilterType] = useState("currentMonth");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const {t} = useTranslation();
 
   const handleSubmit = () => {
     let filter = {};
@@ -36,7 +38,7 @@ const StatementFilterModal = ({
         
       case "custom":
         if (!startDate || !endDate) {
-          alert("Please select both start and end dates");
+          alert(t("pleaseSelectB"));
           return;
         }
         filter = {
@@ -51,7 +53,7 @@ const StatementFilterModal = ({
 
   return (
     open && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black/20 bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg w-full max-w-md p-6 relative">
           <button
             onClick={onClose}
@@ -61,13 +63,13 @@ const StatementFilterModal = ({
           </button>
           
           <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">
-            Generate Statement
+           {t("generateS")}
           </h2>
           
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Filter Type
+                {t("filterT")}
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {["currentMonth", "previousMonth", "custom"].map((type) => (
@@ -92,7 +94,7 @@ const StatementFilterModal = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Start Date
+                    {t("startD")}
                   </label>
                   <DatePicker
                     selected={startDate}
@@ -105,7 +107,7 @@ const StatementFilterModal = ({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    End Date
+                    {t("endD")}
                   </label>
                   <DatePicker
                     selected={endDate}
@@ -125,14 +127,14 @@ const StatementFilterModal = ({
                 onClick={onClose}
                 className="px-4 py-2 text-sm bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-300"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={isLoading}
                 className="px-4 py-2 text-sm bg-[#CD0C02] text-white rounded-md hover:bg-[#a00a00] disabled:opacity-70"
               >
-                {isLoading ? "Generating..." : "Generate Statement"}
+                {isLoading ? t("generating...") : t("generateS")}
               </button>
             </div>
           </div>

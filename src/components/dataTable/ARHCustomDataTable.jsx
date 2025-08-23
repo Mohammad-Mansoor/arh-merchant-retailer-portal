@@ -8,6 +8,7 @@ import {
 } from "../ui/table";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search as SearchIcon } from "lucide-react";
 import LimitSelect from "../ui/LimitSelect";
+import { useTranslation } from "react-i18next";
 
 const DEFAULT_ROWS_PER_PAGE_OPTIONS = [6, 10, 25];
 
@@ -38,7 +39,7 @@ export default function ARHCustomDataTable({
     total: totalRecords = 0,
     limit: currentLimit = rowsPerPageOptions[0]
   } = meta || {};
-
+  const {t} = useTranslation();
   const startItem = (currentPage - 1) * currentLimit + 1;
   const endItem = Math.min(currentPage * currentLimit, totalRecords);
 
@@ -86,8 +87,8 @@ export default function ARHCustomDataTable({
   return (
     <div className={`overflow-hidden flex flex-col rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] ${className}`}>
       {searchQuery && (
-        <div className="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800">
-          Showing results for: "{searchQuery}"
+        <div className="px-4 py-2 text-sm text-gray-600 tex dark:text-gray-300 bg-gray-50 dark:bg-gray-800">
+          {t("showing1")} "{searchQuery}"
         </div>
       )}
 
@@ -162,12 +163,12 @@ export default function ARHCustomDataTable({
       {totalRecords > 0 && (
         <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 border-t dark:border-gray-700 gap-4">
           <div className="text-sm text-gray-600 dark:text-gray-300">
-            Showing {startItem} to {endItem} of {totalRecords} records
+            {t("show")} {startItem} {t("to")} {endItem} {t("of")} {totalRecords} {t("records")}
           </div>
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-              <span>Rows per page:</span>
+              <span>{t("row1")}</span>
               <LimitSelect
                 value={currentLimit} 
                 onChange={onLimitChange} 
@@ -175,7 +176,7 @@ export default function ARHCustomDataTable({
               />
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex rtl:flex-row-reverse items-center gap-1">
               <button
                 onClick={() => goToPage(1)}
                 disabled={currentPage === 1 || loading}
@@ -193,7 +194,7 @@ export default function ARHCustomDataTable({
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <span className="px-2 text-sm">
-                Page {currentPage} of {totalPages}
+                {t("page")} {currentPage} {t("of")} {totalPages}
               </span>
               <button
                 onClick={() => goToPage(currentPage + 1)}

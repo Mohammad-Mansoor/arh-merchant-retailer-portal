@@ -74,7 +74,7 @@ export default function SignUpForm() {
   const mutation = useMutation({
     mutationFn: (formData) => signUpAgent(formData),
     onSuccess: () => {
-      toast.success("Agent account created successfully!");
+      toast.success("Sign up successfull!");
       navigate("/signin");
     },
     onError: (error) => {
@@ -361,7 +361,7 @@ export default function SignUpForm() {
 
         <div className="mt-4 text-center">
           <Button 
-            onClick={() => navigate("/login")} 
+            onClick={() => navigate("/signin")} 
             color="secondary"
             sx={{
               color: "#CD0C02",

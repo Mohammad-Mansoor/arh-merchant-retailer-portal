@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { getAllStockTransferToDownlineAgents } from "../../services/stockTransferToDownlineAgentsService";
 import { useSelector } from "react-redux";
 import { getAllRechargeLogs } from "../../services/product_management_service";
+import { useTranslation } from "react-i18next";
 
 
 function transformPurchaseData(purchases, range) {
@@ -21,7 +22,7 @@ function transformPurchaseData(purchases, range) {
     purchase.status?.toLowerCase() === "success"
   );
 
-
+ 
 
   transferPurchases.forEach(purchase => {
     try {
@@ -67,6 +68,7 @@ export default function CombinedStatisticsChart2() {
       page: 1,
       parent_agent_id: userInfo?.id,
     });
+     const {t} = useTranslation();
   
   const getDateRangeStart = (range) => {
     const now = new Date();
@@ -184,10 +186,10 @@ const { data, isLoading, isError, error } = useQuery({
       <div className="flex flex-col gap-5 mb-6 sm:flex-row sm:justify-between">
         <div className="w-full">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Recharge Statics
+            {t("recharge")}
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Recharge targets for each {timeRange === "monthly" ? "month" : "week"}
+            {t("recharge1")} {timeRange === "monthly" ? t("month") : t("week")}
           </p>
         </div>
         <div className="flex items-start w-full gap-3 sm:justify-end">
@@ -200,7 +202,7 @@ const { data, isLoading, isError, error } = useQuery({
                   : "text-gray-500"
               }`}
             >
-              Monthly
+              {t("monthly")}
             </button>
             <button
               onClick={() => setTimeRange("daily")}
@@ -210,7 +212,7 @@ const { data, isLoading, isError, error } = useQuery({
                   : "text-gray-500"
               }`}
             >
-              Weekly
+             {t("weekly")}
             </button>
           </div>
         </div>
@@ -218,11 +220,11 @@ const { data, isLoading, isError, error } = useQuery({
 
       {isLoading ? (
         <div className="h-[310px] flex items-center justify-center">
-          <div className="animate-pulse text-gray-500">Loading transfer data...</div>
+          <div className="animate-pulse text-gray-500">{t("loadingT")}</div>
         </div>
       ) : isError ? (
         <div className="h-[310px] flex flex-col items-center justify-center text-red-500 gap-2">
-          <div>Error loading transfer data</div>
+          <div>{t("rechargeT")}</div>
           {error && <div className="text-xs text-gray-500">{error.message}</div>}
         </div>
       ) : (
